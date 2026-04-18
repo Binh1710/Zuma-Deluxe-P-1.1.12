@@ -1,0 +1,8 @@
+<Properties>
+	<String id="MoreGamesLink">http://games.real.com/?src=zuma&mode=spnav</String>
+	<Boolean id="DefaultWindowed">False</Boolean>
+	<Boolean id="NoReg">True</Boolean>
+	<Boolean id="DontUpdate">True</Boolean>
+	<Integer id="NumOptionsLinks">0</Integer>
+	
+</Properties>
