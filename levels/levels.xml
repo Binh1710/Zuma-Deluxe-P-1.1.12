@@ -71,13 +71,19 @@
 	<TreasurePoint x="336" y="23" dist1="80" />
 </Graphics>
 
+<Graphics id="tunneldual" image="tunneldual"  curve="tunneldual-1" curve2="tunneldual-2" dispname="Double Fire & Ice of Quetzalcoatl" gx="215" gy="240" >
+	<Cutout image="tunnel1" pri="1" x="0" y="253" />
+	<TreasurePoint x="536" y="243" dist1="10" />
+	<TreasurePoint x="312" y="420" dist1="60" />
+</Graphics>
+
 <Graphics id="origins2" curve="a" image="a" dispname="Back to origins" gx="298" gy="263">
 	<TreasurePoint x="570" y="41" dist1="0" />
 	<TreasurePoint x="49" y="59" dist1="40" />
 	<TreasurePoint x="43" y="435" dist1="80" />
 </Graphics>
 
-<Graphics id="badbreath" curve="badbreath" image="badbreath" dispname="Mud Hits the Fan" gx="363" gy="231" >
+<Graphics id="badbreath" curve="badbreath" image="badbreath" dispname="Mud Hits the Fan" gx="363" gy="231"  danger="700">
 		<Cutout image="tunnels" pri="1" x="0" y="0" />
 </Graphics>
 
@@ -117,6 +123,13 @@
 	<TreasurePoint x="580" y="55" dist1="60" /> 
 </Graphics>
 
+<Graphics id="targetglyph2" image="targetglyph" curve="targetglyph" dispname="Nameless landscapes" gx="363" gy="252" >
+	<Cutout image="tunnel" pri="1" x="0" y="0" />
+	<TreasurePoint x="201" y="38" dist1="30" />
+	<TreasurePoint x="503" y="448" dist1="50" />
+	<TreasurePoint x="79" y="401" dist1="60" />
+</Graphics>
+
 <Graphics id="gleepheron" image="a" curve="a" dispname="Gleepheron's Blossoms" gx="355" gy="248" >
 	<Cutout pri="1" image="tunnels" x="0" y="0" />
 	<TreasurePoint x="81" y="77" dist1="0" />
@@ -145,6 +158,26 @@
 	<TreasurePoint x="46" y="118" dist2="40" />
 </Graphics>
 
+<Graphics id="blackswirley2" image="blackswirley" curve="blackswirley-1" curve2="blackswirley-2" dispname="Light Vortex" gx="302" gy="134" >
+	<Cutout image="tunnel" pri="1" x="0" y="0" />
+	<TreasurePoint x="612" y="379" dist1="0" />
+	<TreasurePoint x="36" y="57" dist1="0" />
+</Graphics>
+
+<Graphics id="area" curve="area" image="area" dispname="Yes sir its cold outside" gx="301" gy="166">
+	<Cutout image="tunnel" pri="1" x="0" y="0" />
+	<TreasurePoint x="608" y="30" dist1="90" />
+	<TreasurePoint x="80" y="35" dist1="35" />
+	<TreasurePoint x="34" y="371" dist1="45" />
+	<TreasurePoint x="613" y="453" dist1="45" />
+</Graphics>
+
+<Graphics id="squaresville3" curve="squaresville3" image="squaresville3" dispname="Codex of Straigth Line" gx="329" gy="398">
+	<TreasurePoint x="610" y="230" dist1="37" />
+	<TreasurePoint x="610" y="374" dist1="42" />
+	<TreasurePoint x="25" y="137" dist1="67" />
+</Graphics>
+
 <Graphics id="lilies" image="a" curve="a" curve2="b" dispname="Lilies growing" gx="230" gy="247" >
 	<Cutout image="tunnel" pri="1" x="0" y="0" />
 	<TreasurePoint x="24" y="18" dist1="30" />
@@ -152,7 +185,7 @@
 	<TreasurePoint x="352" y="444" dist2="10" />
 </Graphics>
 
-<Graphics id="hyksos2" image="a" curve="a" curve2="b" dispname="An Invasion long time ago" gx="313" gy="450">
+<Graphics id="hyksos2" image="a" curve="a" curve2="b" dispname="An Invasion long time ago" gx="313" gy="430">
 	<Cutout pri="1" image="tunnels" x="0" y="0" />
 	<TreasurePoint x="36" y="282" dist1="34" />
 	<TreasurePoint x="604" y="282" dist2="40" />
@@ -197,6 +230,12 @@
 	<TreasurePoint x="608" y="367" dist1="15" />
 </Graphics>
 
+<Graphics id="clawdual2" curve="clawdual2-1" curve2="clawdual2-2" image="clawdual2" dispname="Mirror Talon" gx="306" gy="243">
+	<TreasurePoint x="76" y="52" dist1="0" />
+	<TreasurePoint x="584" y="63" dist1="20" />
+	<TreasurePoint x="34" y="444" dist1="60" />
+</Graphics>
+
 <Graphics id="theory" curve="a" image="a" dispname="Theory of Choice" gx="219" gy="207">
 	<Sprite image="b" pri="0" x="0" y="0" />
 	<Cutout image="tunnels" pri="1" x="0" y="0" />
@@ -225,6 +264,19 @@
 	<TreasurePoint x="584" y="100" dist1="60" />
 </Graphics>
 
+<Graphics id="candy" image="candy" curve="candy-1" curve2="candy-2" dispname="Sweet And Fluffy" gx="320" gy="240">
+</Graphics>
+
+<Graphics id="serpents3" image="serpents3" curve="serpents-1" curve2="serpents-2" skullrot="0" dispname="Abduction of Sirius" gx="317" gy="113">
+	<BackgroundAlpha image="quake01" x="0" y="0" vx=-1 vy=-1 />
+	<BackgroundAlpha image="quake02" x="293" y="0" vx=1 vy=-1/>
+	<BackgroundAlpha image="quake03" x="81" y="138" vx=0 vy=1 />
+	<BackgroundAlpha image="quake04" x="382" y="174" vx=1 vy=1 />
+	<Cutout image="tunnel" pri="1" x="0" y="0" />
+	<TreasurePoint x="95" y="220" dist1="40" />
+	<TreasurePoint x="545" y="220" dist2="72" />
+</Graphics>
+
 <Graphics id="gleepheron2" image="a" curve="a" dispname="Gleepheron's Blossoms" gx="336" gy="221" >
 	<Cutout pri="1" image="tunnels" x="0" y="0" />
 	<TreasurePoint x="137" y="48" dist1="0" />
@@ -237,6 +289,13 @@
 	<TreasurePoint x="601" y="50" dist1="32" />
 	<TreasurePoint x="15" y="149" dist1="50" />
 	<TreasurePoint x="496" y="359" dist1="60" />
+</Graphics>
+
+<Graphics id="triangle4" curve="triangle4" image="triangle4" dispname="Red Longest Pad" gx="369" gy="277">
+	<Cutout pri="1" image="tunnel" x="0" y="0" />
+	<TreasurePoint x="26" y="128" dist1="0" />
+	<TreasurePoint x="563" y="108" dist1="45" />
+	<TreasurePoint x="177" y="87" dist1="55" />
 </Graphics>
 
 <Graphics id="tumble" curve="a" image="a" dispname="Gardenia's Flowers" gx="400" gy="249">
@@ -281,6 +340,9 @@
 	<TreasurePoint x="598" y="55" dist1="15" />
 	<TreasurePoint x="35" y="40" dist1="20" />
 	<TreasurePoint x="34" y="457" dist1="30" />
+</Graphics>
+
+<Graphics id="betawings" curve1="betawings-1" curve2="betawings-2" image="betawings" dispname="Excessive Restoration" gx="320" gy="175" skullrot="0" >
 </Graphics>
 
 <Graphics id="loopers" curve="a" image="a" dispname="Amethyst Road" gx="205" gy="249">
@@ -384,6 +446,17 @@
 	<TreasurePoint x="602" y="197" dist1="55" />
 </Graphics>
 
+<Graphics id="serpents2" image="serpents2" curve="serpents2-1" curve2="serpents2-2" skullrot="0" dispname="Serpents of Eagle" gx="300" gy="275">
+	<BackgroundAlpha image="quake01" x="0" y="0" vx=-1 vy=-1 />
+	<BackgroundAlpha image="quake02" x="293" y="0" vx=1 vy=-1/>
+	<BackgroundAlpha image="quake03" x="81" y="138" vx=0 vy=1 />
+	<BackgroundAlpha image="quake04" x="382" y="174" vx=1 vy=1 />
+	<Cutout pri="1" image="tunnel" x="0" y="0" />
+	<TreasurePoint x="26" y="274" dist1="34" />
+	<TreasurePoint x="38" y="433" dist1="40" />
+	<TreasurePoint x="123" y="125" dist2="72" />
+</Graphics>
+
 <Graphics id="dustbowl" curve="a" curve2="b" image="a" dispname="Dustbowl Mistake" gx="320" gy="240">
 	<Cutout pri="1" image="tunnels" x="0" y="0" />
 	<TreasurePoint x="91" y="320" dist1="0" />
@@ -426,11 +499,24 @@
 	<TreasurePoint x="25" y="137" dist1="67" />
 </Graphics>
 
+<Graphics id="inversespiraldual" curve="inversespiraldual-1" curve2="inversespiraldual-2" image="inversespiraldual" dispname="Double Zumaic Exodus" gx="424" gy="263">
+	<Cutout image="tunnel" pri="1" x="107" y="157" />
+	<TreasurePoint x="319" y="419" dist1="15" />
+	<TreasurePoint x="600" y="446" dist1="22" />
+	<TreasurePoint x="603" y="56" dist1="30" />
+</Graphics>
+
 <Graphics id="chebu" curve="a" image="a" dispname="Ancient Mysteries" gx="290" gy="183">
 	<Cutout image="tunnels" pri="1" x="0" y="0" />
 	<TreasurePoint x="54" y="39" dist1="11" />
 	<TreasurePoint x="331" y="409" dist1="32" />
 	<TreasurePoint x="594" y="175" dist1="47" />
+</Graphics>
+
+<Graphics id="mystic" curve="mystic" image="mystic" dispname="Marble Carpet of dark wizard" gx="325" gy="282">
+	<TreasurePoint x="117" y="364" dist1="20" />
+	<TreasurePoint x="220" y="424" dist1="35" />
+	<TreasurePoint x="542" y="65" dist1="45" />
 </Graphics>
 <Graphics id="randomly2" curve="a" image="a" dispname="Randomizator: ON" gx="423" gy="269">
 	<Cutout image="tunnels" pri="1" x="0" y="0" />
@@ -577,11 +663,20 @@
 	<TreasurePoint x="556" y="374" dist2="60" />
 </Graphics>
 
+<Graphics id="cleopatra" curve="cleopatra" image="cleopatra" dispname="Cleopatra Cafe" gx="175" gy="219" danger="813">
+	<Cutout image="tunnel" pri="1" x="0" y="0" />
+</Graphics>
+
 <Graphics id="groovefest" image="a" curve="a" dispname="Sand Garden" gx="227" gy="236" >
 	<Cutout pri="1" image="tunnels" x="0" y="0" />
 	<TreasurePoint x="427" y="103" dist1="0" />
 	<TreasurePoint x="587" y="438" dist1="44" />
 	<TreasurePoint x="32" y="88" dist1="69" />
+</Graphics>
+
+<Graphics id="congregation" image="congregation" curve="congregation-1" curve2="congregation-2" dispname="the congregation" gx="320" gy="270" >
+	<TreasurePoint x="478" y="117" dist1="0" />
+	<TreasurePoint x="158" y="117" dist1="0" />
 </Graphics>
 
 <Graphics id="dotsndots" image="a" curve="a" dispname="Dots and great bend" gx="281" gy="190" >
@@ -619,6 +714,13 @@
 	<TreasurePoint x="517" y="269" dist1="0" />
 </Graphics>
 
+<Graphics id="spaceinvaders2" curve="spaceinvaders2" image="spaceinvaders2" dispname="Lair of the Mud Snake II" gx="362" gy="120">
+	<Cutout image="tunnels" pri="1" x="0" y="0" />
+	<TreasurePoint x="551" y="257" dist1="30" />
+	<TreasurePoint x="96" y="119" dist1="10" />
+	<TreasurePoint x="38" y="312" dist1="0" />
+</Graphics>
+
 <Graphics id="trueSI" curve="a" image="a" dispname="Space Invaders" gx="266" gy="251">
 	<Cutout image="tunnels" pri="1" x="0" y="0" />
 	<TreasurePoint x="580" y="270" dist1="32" />
@@ -631,6 +733,14 @@
 	<TreasurePoint x="427" y="103" dist1="0" />
 	<TreasurePoint x="587" y="438" dist1="44" />
 	<TreasurePoint x="32" y="88" dist1="69" />
+</Graphics>
+
+<Graphics id="coasterdual" curve="coasterdual-1" curve2="coasterdual-2" image="coasterdual" dispname="Double Altar of Tlaloc" gx="325" gy="240">
+	<Cutout image="tunnel01" pri="1" x="0" y="0" />
+	<Cutout image="tunnel02" pri="1" x="419" y="0" />
+	<TreasurePoint x="35" y="108" dist1="0" />
+	<TreasurePoint x="602" y="446" dist1="22" />
+	<TreasurePoint x="585" y="50" dist1="32" />
 </Graphics>
 
 <Graphics id="waterdrop" curve="a" image="a" dispname="Minty Heaven" gx="441" gy="355">
@@ -665,6 +775,13 @@
 	<TreasurePoint x="50" y="66" dist1="0" />
 	<TreasurePoint x="55" y="434" dist1="38" />
 	<TreasurePoint x="546" y="328" dist1="66" />
+</Graphics>
+
+<Graphics id="platypus" curve="platypus1" curve2="platypus2" image="platypus" dispname="Platypus dungeon" gx="429" gy="233">
+	<Cutout image="tunnel" pri="1" x="0" y="0" />
+	<TreasurePoint x="234" y="369" dist1="50" />
+	<TreasurePoint x="577" y="69" dist1="50" />
+	<TreasurePoint x="138" y="105" dist1="60" />
 </Graphics>
 
 <Graphics id="pipes" curve="a" image="a" dispname="Metal pipes' system" gx="306" gy="275">
@@ -757,6 +874,11 @@
 	<TreasurePoint x="124" y="175" dist1="19" />
 </Graphics>
 
+<Graphics id="yellowmatrix" image="yellowmatrix" curve="yellowmatrix" curve2="yellowmatrix2" dispname="Yellow matrix" gx="500" gy="250" >
+	<TreasurePoint x="325" y="40" dist1="22" />
+	<TreasurePoint x="53" y="59" dist2="22" />
+</Graphics>
+
 <Graphics id="twice" curve="a" curve2="b" image="a" dispname="Salt of Percekotl" gx="320" gy="240">
 	<Cutout image="tunnels" pri="1" x="0" y="0" />
 	<TreasurePoint x="45" y="42" dist1="25" />
@@ -808,10 +930,48 @@
 	<TreasurePoint x="514" y="320" dist3="10" />
 </Graphics>
 
+<Graphics id="overunder2" curve="overunder" image="overunder" dispname="Ornamental province" gx="280" gy="199">
+	<Cutout image="tunnel" pri="1" x="0" y="0" />
+	<TreasurePoint x="371" y="385" dist1="0" />
+	<TreasurePoint x="514" y="179" dist1="38" />
+</Graphics>
+
+<Graphics id="serpentsingle" image="serpentsingle" curve="serpentsingle" dispname="Single Serpent" gx="339" gy="271">
+	<BackgroundAlpha image="quake01" x="0" y="0" vx=-1 vy=-1 />
+	<BackgroundAlpha image="quake02" x="293" y="0" vx=1 vy=-1/>
+	<BackgroundAlpha image="quake03" x="81" y="138" vx=0 vy=1 />
+	<BackgroundAlpha image="quake04" x="382" y="174" vx=1 vy=1 />
+	<Cutout pri="1" image="tunnel" x="0" y="0" />
+	<TreasurePoint x="26" y="274" dist1="34" />
+	<TreasurePoint x="38" y="433" dist1="40" />
+	<TreasurePoint x="123" y="125" dist2="72" />
+</Graphics>
+
+<Graphics id="inversespiral2" curve="inversespiral" image="inversespiral" dispname="Zumaic Exodus" gx="452" gy="215">
+	<Cutout image="tunnel" pri="1" x="107" y="157" />
+	<TreasurePoint x="319" y="419" dist1="15" />
+	<TreasurePoint x="600" y="446" dist1="22" />
+	<TreasurePoint x="603" y="56" dist1="30" />
+</Graphics>
+
 <Graphics id="isitend" image="a" curve="a" dispname="Beyond Spectre of the Light" gx="258" gy="263" >
 	<Sprite image="paths" pri="0" x="0" y="0" />
 	<Sprite image="tunnels" pri="1" x="0" y="0" />
 	<Sprite image="space" pri="2" x="0" y="0" />
+</Graphics>
+
+<Graphics id="analog" image="a" curve="a" curve2="b" dispname="Analog Transaction" skullrot="0" gx="338" gy="219">
+	<Cutout image="tunnels" pri="1" x="0" y="0" />
+	<TreasurePoint x="151" y="26" dist1="0" />
+	<TreasurePoint x="253" y="332" dist1="0" />
+	<TreasurePoint x="46" y="435" dist2="0" />
+	<TreasurePoint x="595" y="441" dist2="0" />
+</Graphics>
+<Graphics id="danganronpa" image="a" curve="a" curve2="b" dispname="Danganronpa Miracle" skullrot="0" gx="320" gy="240">
+	<TreasurePoint x="151" y="26" dist1="0" />
+	<TreasurePoint x="253" y="332" dist1="0" />
+	<TreasurePoint x="46" y="435" dist2="0" />
+	<TreasurePoint x="595" y="441" dist2="0" />
 </Graphics>
 
 <Graphics id="squaretriple" curve="squaretriple-1" curve2="squaretriple-2" curve3="squaretriple-3" image="squaretriple" dispname="Triple of Mixtec" gx="291" gy="211">
@@ -821,6 +981,11 @@
 </Graphics>
 
 <Graphics id="space" curve="a" curve2="b" gx="320" gy="240" space="true" >
+</Graphics>
+
+<Graphics id="tunnellevel2" image="tunnellevel"  curve="tunnellevel" dispname="Aquamarine nexus" gx="327" gy="239" >
+	<TreasurePoint x="605" y="365" dist1="10" />
+	<TreasurePoint x="73" y="33" dist1="60" />
 </Graphics>
 
 <Graphics id="newspace" curve="a" dispname="Neutron" gx="246" gy="188" space="true">
@@ -837,8 +1002,11 @@
 <Settings id="lvl14" speed=".6" start="40"  mergespeed=".075" firespeed="8" score="1000" partime="60"/>
 <Settings id="lvl15" speed=".45" start="30"  mergespeed=".075" firespeed="8" score="1000" partime="135"/>
 <Settings id="lvl16" speed=".6" start="40"  mergespeed=".075" firespeed="8" score="1000" partime="35"/>
-<Settings id="lvl17" speed=".6" start="40"  mergespeed=".075" firespeed="8" score="1000" partime="60"/>
+<Settings id="lvl17" speed=".6" start="40"  mergespeed=".075" firespeed="8" score="1000" partime="35"/>
 <Settings id="lvl18" speed=".45" start="70"  mergespeed=".075" firespeed="8" score="3500" partime="150"/>
+<Settings id="lvl19" speed=".6" start="40"  mergespeed=".075" firespeed="8" score="1000" partime="60"/>
+<Settings id="lvl110" speed=".8" start="40"  mergespeed=".075" firespeed="8" score="3000" partime="120"/>
+
 
 <Settings id="lvl21"  speed=".75" start="50"  mergespeed=".075" firespeed="8" score="2000" partime="60"/>
 <Settings id="lvl22"  speed=".75" start="50"  mergespeed=".075" firespeed="8" score="2000" partime="75"/>	
@@ -846,17 +1014,22 @@
 <Settings id="lvl24"  speed=".8" start="55"  mergespeed=".075" firespeed="8" score="2000" partime="75"/>
 <Settings id="lvl25"  speed=".55" start="30"  mergespeed=".075" firespeed="8" score="2000" partime="80"/>
 <Settings id="lvl26"  speed=".8" start="55"  mergespeed=".075" firespeed="8" score="2000" partime="100"/>	
-<Settings id="lvl27"  speed=".8" start="55"  mergespeed=".075" firespeed="8" score="2000" partime="75"/>
+<Settings id="lvl27"  speed=".8" start="55"  mergespeed=".075" firespeed="8" score="2000" partime="100"/>
 <Settings id="lvl28"  speed=".55" start="80"  mergespeed=".075" firespeed="8" score="4000" partime="180"/>
+<Settings id="lvl29"  speed=".8" start="55"  mergespeed=".075" firespeed="8" score="2000" partime="75"/>
+<Settings id="lvl210"  speed="1.0" start="55"  mergespeed=".075" firespeed="8" score="3500" partime="120"/>
 
 <Settings id="lvl31"  speed=".85" start="65"  mergespeed=".075" firespeed="8" score="3000" partime="70"/>
 <Settings id="lvl32"  speed=".9" start="65"  mergespeed=".075" firespeed="8" score="3000" partime="70"/>	
 <Settings id="lvl33"  speed=".9" start="70"  mergespeed=".075" firespeed="8" score="3000" partime="80"/>	
 <Settings id="lvl34"  speed=".9" start="60"  mergespeed=".075" firespeed="8" score="3000" slowfactor="4.0" partime="90"/>
 <Settings id="lvl35"  speed=".6" start="45"  mergespeed=".075" firespeed="8" score="3000" single="8" zumaslow="500" zumaback="200" partime="130"/>
-<Settings id="lvl36"  speed=".9" start="65"  mergespeed=".075" firespeed="8" score="3000" partime="70"/>	
-<Settings id="lvl37"  speed=".95" start="70"  mergespeed=".075" firespeed="8" score="3000" partime="80"/>
-<Settings id="lvl38"  speed=".6" start="75"  mergespeed=".075" firespeed="8" score="5000" single="8" zumaslow="500" zumaback="200" partime="200"/>
+<Settings id="lvl36"  speed=".9" start="65"  mergespeed=".075" firespeed="8" score="3000" partime="70"/>
+<Settings id="lvl37"  speed=".6" start="65"  mergespeed=".075" firespeed="8" score="5000" single="8" zumaslow="500" zumaback="200" partime="200"/>
+<Settings id="lvl38"  speed=".95" start="70"  mergespeed=".075" firespeed="8" score="3000" partime="80"/>
+<Settings id="lvl39"  speed=".6" start="75"  mergespeed=".075" firespeed="8" score="5000" single="8" zumaslow="500" zumaback="200" partime="200"/>
+<Settings id="lvl310"  speed=".95" start="70"  mergespeed=".075" firespeed="8" score="5000" partime="80"/>
+
 
 <Settings id="lvl41"  speed="0.70" start="45"  mergespeed=".075" firespeed="8" colors="5" score="2000" partime="70"/>
 <Settings id="lvl42"  speed="0.70" start="45"  mergespeed=".075" firespeed="8" colors="5" score="2000" partime="70"/>
@@ -865,8 +1038,10 @@
 <Settings id="lvl45"  speed="0.55" start="35"  mergespeed=".075" firespeed="8" colors="5" score="2000" slowfactor="3.5" partime="110"/>
 <Settings id="lvl46"  speed="0.70" start="55"  mergespeed=".075" firespeed="8" colors="5" score="2000" slowfactor="3.5" partime="90"/>
 <Settings id="lvl47"  speed="0.75" start="60"  mergespeed=".075" firespeed="8" colors="5" score="2000" slowfactor="3.5" partime="100"/>
-<Settings id="lvl48"  speed="0.75" start="80"  mergespeed=".075" firespeed="8" colors="5" score="2000" slowfactor="3.5" partime="100"/>
-<Settings id="lvl49"  speed="1.00" start="80"  mergespeed=".075" firespeed="8" colors="5" score="4000" slowfactor="3.5" partime="100"/>
+<Settings id="lvl48"  speed="0.65" start="40"  mergespeed=".075" firespeed="8" colors="5" score="5000" slowfactor="3.5" partime="100"/>
+<Settings id="lvl49"  speed="0.75" start="80"  mergespeed=".075" firespeed="8" colors="5" score="2000" slowfactor="3.5" partime="100"/>
+<Settings id="lvl410"  speed="1.00" start="80"  mergespeed=".075" firespeed="8" colors="5" score="4000" slowfactor="3.5" partime="100"/>
+<Settings id="lvl411"  speed="0.90" start="80"  mergespeed=".075" firespeed="8" colors="5" score="5000" slowfactor="3.5" partime="100"/>
 
 <Settings id="lvl51"  speed="0.75" start="55"  mergespeed=".075" firespeed="8" colors="5" score="3000" partime="130"/>
 <Settings id="lvl52"  speed="0.80" start="60"  mergespeed=".075" firespeed="8" colors="5" score="3000" partime="120"/>	
@@ -875,8 +1050,11 @@
 <Settings id="lvl55"  speed="0.65" start="40"  mergespeed=".075" firespeed="8" colors="5" score="3000" partime="130"/>	
 <Settings id="lvl56"  speed="0.85" start="65"  mergespeed=".075" firespeed="8" colors="5" score="3000" slowfactor="4.0" partime="130"/>
 <Settings id="lvl57"  speed="0.90" start="70"  mergespeed=".075" firespeed="8" colors="5" score="3000" slowfactor="4.0" partime="140"/>
-<Settings id="lvl58"  speed="0.90" start="85"  mergespeed=".075" firespeed="8" colors="5" score="3000" slowfactor="4.0" partime="140"/>
-<Settings id="lvl59"  speed="1.30" start="105"  mergespeed=".075" firespeed="8" colors="5" score="6000" slowfactor="4.0" partime="140"/>
+<Settings id="lvl58"  speed="0.75" start="40"  mergespeed=".075" firespeed="8" colors="5" score="3000" partime="130"/>
+<Settings id="lvl59"  speed="0.90" start="85"  mergespeed=".075" firespeed="8" colors="5" score="3000" slowfactor="4.0" partime="140"/>
+<Settings id="lvl510"  speed="0.75" start="60"  mergespeed=".075" firespeed="8" colors="5" score="7500" slowfactor="2.5" partime="205"/>
+<Settings id="lvl511"  speed="1.30" start="105"  mergespeed=".075" firespeed="8" colors="5" score="6000" slowfactor="4.0" partime="140"/>
+
 
 <Settings id="lvl61"  speed=".90" start="70"  mergespeed=".075" firespeed="8" colors="5" score="4000" single="8" partime="140"/>
 <Settings id="lvl62"  speed=".95" start="65"  mergespeed=".075" firespeed="8" colors="5" score="4000" single="8" partime="160"/>	
@@ -885,19 +1063,23 @@
 <Settings id="lvl65"  speed=".65" start="45"  mergespeed=".075" firespeed="8" colors="5" score="4000" slowfactor="4.2" partime="180" single="7" />	
 <Settings id="lvl66"  speed=".90" start="65"  mergespeed=".075" firespeed="8" colors="5" score="4000" slowfactor="3.5" partime="180"/>
 <Settings id="lvl67"  speed=".95" start="70"  mergespeed=".075" firespeed="8" colors="5" score="4000" slowfactor="3.5" partime="190"/>
-<Settings id="lvl68"  speed=".95" start="90"  mergespeed=".075" firespeed="8" colors="5" score="4000" slowfactor="3.5" partime="190"/>
-<Settings id="lvl69"  speed=".65" start="75"  mergespeed=".075" firespeed="8" colors="5" score="7000" slowfactor="4.2" partime="240" single="7" />
+<Settings id="lvl68"  speed=".75" start="75"  mergespeed=".075" firespeed="8" colors="5" score="6000" slowfactor="4.2" partime="240" single="7" />
+<Settings id="lvl69"  speed=".95" start="90"  mergespeed=".075" firespeed="8" colors="5" score="4000" slowfactor="3.5" partime="190"/>
+<Settings id="lvl610"  speed="1.00" start="60"  mergespeed=".075" firespeed="8" colors="6" score="7000" slowfactor="2.5" partime="205"/>
+<Settings id="lvl611"  speed=".75" start="75"  mergespeed=".075" firespeed="8" colors="5" score="8000" slowfactor="4.2" partime="240" single="7" />
 
 <Settings id="lvl71"  speed="0.70" start="55"  mergespeed=".075" firespeed="8" colors="6" score="3000" slowfactor="3.5" partime="160"/>
 <Settings id="lvl72"  speed="0.70" start="55"  mergespeed=".075" firespeed="8" colors="6" score="3000" slowfactor="4.0" partime="160"/>
-<Settings id="lvl73"  speed="0.75" start="55"  mergespeed=".075" firespeed="8" colors="6" score="3000" slowfactor="3.5" partime="160"/>
-<Settings id="lvl74"  speed="0.75" start="50"  mergespeed=".075" firespeed="8" colors="6" score="3000" slowfactor="3.5" partime="160"/>
+<Settings id="lvl73"  speed="0.70" start="65"  mergespeed=".075" firespeed="8" colors="6" score="3000" slowfactor="4.0" partime="160"/>
+<Settings id="lvl74"  speed="0.75" start="55"  mergespeed=".075" firespeed="8" colors="6" score="3000" slowfactor="3.5" partime="160"/>
 <Settings id="lvl75"  speed="0.60" start="40"  mergespeed=".075" firespeed="8" colors="6" score="3000" single="7" partime="160"/>
-<Settings id="lvl76"  speed="0.75" start="60"  mergespeed=".075" firespeed="8" colors="6" score="3000" slowfactor="3.5" partime="160"/>
-<Settings id="lvl77"  speed="0.85" start="60"  mergespeed=".075" firespeed="8" colors="6" score="3000" single="9" partime="150"/>
-<Settings id="lvl78"  speed="0.85" start="70"  mergespeed=".075" firespeed="8" colors="6" score="3000" single="9" partime="150"/>
-<Settings id="lvl79"  speed="1.40" start="60"  mergespeed=".075" firespeed="8" colors="6" score="3000" single="9" partime="200"/>
-<Settings id="lvl710"  speed="0.85" start="60"  mergespeed=".075" firespeed="8" colors="6" score="3000" single="9" partime="150"/>
+<Settings id="lvl76"  speed="0.75" start="50"  mergespeed=".075" firespeed="8" colors="6" score="3000" slowfactor="3.5" partime="160"/>
+<Settings id="lvl77"  speed="0.75" start="60"  mergespeed=".075" firespeed="8" colors="6" score="3000" slowfactor="3.5" partime="160"/>
+<Settings id="lvl78"  speed="0.60" start="40"  mergespeed=".075" firespeed="8" colors="6" score="3000" single="7" partime="160"/>
+<Settings id="lvl79"  speed="0.85" start="60"  mergespeed=".075" firespeed="8" colors="6" score="3000" single="9" partime="150"/>
+<Settings id="lvl710"  speed="1.40" start="60"  mergespeed=".075" firespeed="8" colors="6" score="3000" single="9" partime="200"/>
+<Settings id="lvl711"  speed="0.85" start="70"  mergespeed=".075" firespeed="8" colors="6" score="3000" single="9" partime="150"/>
+<Settings id="lvl712"  speed="0.85" start="60"  mergespeed=".075" firespeed="8" colors="6" score="3000" single="9" partime="150"/>
 
 <Settings id="lvl81"  speed="0.80" start="60"  mergespeed=".075" firespeed="8" colors="6" score="4000" partime="160" />
 <Settings id="lvl82"  speed="0.85" start="60"  mergespeed=".075" firespeed="8" colors="6" score="4000" partime="160"/>
@@ -909,6 +1091,8 @@
 <Settings id="lvl88"  speed="0.90" start="75"  mergespeed=".075" firespeed="8" colors="6" score="4500" partime="170"/>
 <Settings id="lvl89"  speed="1.40" start="90"  mergespeed=".075" firespeed="8" colors="6" score="5500" partime="300"/>
 <Settings id="lvl810"  speed="0.90" start="70"  mergespeed=".075" firespeed="8" colors="6" score="4500" partime="170"/>
+<Settings id="lvl811"  speed="1.00" start="55"  mergespeed=".075" firespeed="8" colors="6" score="4500" partime="170"/>
+<Settings id="lvl812"  speed="1.50" start="80"  mergespeed=".075" firespeed="8" colors="6" score="4500" partime="170"/>
 
 <Settings id="lvl91"  speed=".90" start="70"  mergespeed=".075" firespeed="8" colors="6" score="5000" slowfactor="3.5" partime="170" />
 <Settings id="lvl92"  speed=".90" start="70"  mergespeed=".075" firespeed="8" colors="6" score="5000" slowfactor="3.5" single="8" partime="155"/>	
@@ -919,43 +1103,48 @@
 <Settings id="lvl97"  speed=".90" start="65"  mergespeed=".075" firespeed="8" colors="6" score="5000" slowfactor="2.5" partime="165"/>
 <Settings id="lvl98"  speed=".70" start="50"  mergespeed=".075" firespeed="8" colors="6" score="5000" slowfactor="2.5" partime="165"/>
 <Settings id="lvl99"  speed=".80" start="65"  mergespeed=".075" firespeed="8" colors="6" score="5000" slowfactor="2.5" partime="300"/>
-<Settings id="lvl910"  speed="1.40" start="65"  mergespeed=".075" firespeed="8" colors="6" score="7500" slowfactor="2.5" partime="450"/>
+<Settings id="lvl910"  speed=".70" start="50"  mergespeed=".075" firespeed="8" colors="6" score="5000" slowfactor="4.0" partime="180"/>
+<Settings id="lvl911"  speed="1.40" start="65"  mergespeed=".075" firespeed="8" colors="6" score="7500" slowfactor="2.5" partime="450"/>
+<Settings id="lvl912"  speed=".80" start="50"  mergespeed=".075" firespeed="8" colors="6" score="7500" slowfactor="2.5" partime="450"/>
 
-<Settings id="lvl101"  speed="0.50" start="50"  mergespeed=".075" firespeed="8" colors="6" score="5000" slowfactor="3.5" partime="200"/>
+<Settings id="lvl101"  speed="1.70" start="60"  mergespeed=".075" firespeed="8" colors="6" score="5000" slowfactor="3.5" partime="200"/>
 <Settings id="lvl102"  speed="0.75" start="60"  mergespeed=".075" firespeed="8" colors="6" score="5000" slowfactor="2.5" partime="205"/>
-<Settings id="lvl103"  speed="0.50" start="50"  mergespeed=".075" firespeed="8" colors="6" score="5000" slowfactor="3.5" partime="205"/>
-<Settings id="lvl104"  speed="0.50" start="80"  mergespeed=".075" firespeed="8" colors="6" score="5000" slowfactor="3.5" partime="200"/>
-<Settings id="lvl105"  speed="0.50" start="55"  mergespeed=".075" firespeed="8" colors="6" score="5000" slowfactor="3.5" single="8" partime="195"/>
-<Settings id="lvl106"  speed="0.50" start="80"  mergespeed=".075" firespeed="8" colors="6" score="5000" slowfactor="3.5" partime="205"/>
-<Settings id="lvl107"  speed="0.30" start="40"  mergespeed=".075" firespeed="8" colors="6" score="4000" slowfactor="4" partime="200"/>
+<Settings id="lvl103"  speed="0.75" start="60"  mergespeed=".075" firespeed="8" colors="6" score="5000" slowfactor="2.5" partime="205"/>
+<Settings id="lvl104"  speed="0.50" start="50"  mergespeed=".075" firespeed="8" colors="6" score="5000" slowfactor="3.5" partime="205"/>
+<Settings id="lvl105"  speed="0.50" start="80"  mergespeed=".075" firespeed="8" colors="6" score="5000" slowfactor="3.5" partime="200"/>
+<Settings id="lvl106"  speed="0.50" start="55"  mergespeed=".075" firespeed="8" colors="6" score="5000" slowfactor="3.5" single="8" partime="195"/>
+<Settings id="lvl107"  speed="0.50" start="80"  mergespeed=".075" firespeed="8" colors="6" score="5000" slowfactor="3.5" partime="205"/>
 <Settings id="lvl108"  speed="0.30" start="40"  mergespeed=".075" firespeed="8" colors="6" score="4000" slowfactor="4" partime="200"/>
 <Settings id="lvl109"  speed="0.30" start="40"  mergespeed=".075" firespeed="8" colors="6" score="4000" slowfactor="4" partime="200"/>
 <Settings id="lvl1010"  speed="0.30" start="40"  mergespeed=".075" firespeed="8" colors="6" score="4000" slowfactor="4" partime="200"/>
-<Settings id="lvl1011"  speed="0.50" start="50"  mergespeed=".075" firespeed="8" colors="6" score="5000" slowfactor="4" partime="250"/>
+<Settings id="lvl1011"  speed="0.30" start="40"  mergespeed=".075" firespeed="8" colors="6" score="4000" slowfactor="4" partime="200"/>
+<Settings id="lvl1012"  speed="0.50" start="50"  mergespeed=".075" firespeed="8" colors="6" score="5000" slowfactor="4" partime="250"/>
 
 <Settings id="lvl111"  speed="0.55" start="55"  mergespeed=".075" firespeed="8" colors="6" score="5000" slowfactor="2.5" partime="210"/>
 <Settings id="lvl112"  speed="0.55" start="55"  mergespeed=".075" firespeed="8" colors="6" score="5000" slowfactor="2.5" partime="210"/>
 <Settings id="lvl113"  speed="0.55" start="80"  mergespeed=".075" firespeed="8" colors="6" score="5000" slowfactor="3.5" partime="215"/>
 <Settings id="lvl114"  speed="0.80" start="55"  mergespeed=".075" firespeed="8" colors="6" score="5000" slowfactor="2.5" partime="210"/>
 <Settings id="lvl115"  speed="0.80" start="55"  mergespeed=".075" firespeed="8" colors="6" score="5000" slowfactor="2.5" partime="215"/>
-<Settings id="lvl116"  speed="0.55" start="60"  mergespeed=".075" firespeed="8" colors="6" score="5000" slowfactor="3.5" single="8" partime="215"/>
-<Settings id="lvl117"  speed="0.55" start="60"  mergespeed=".075" firespeed="8" colors="6" score="5000" slowfactor="3.5" partime="205"/>
-<Settings id="lvl118"  speed="0.80" start="60"  mergespeed=".075" firespeed="8" colors="6" score="5000" slowfactor="2.5" partime="215"/>
+<Settings id="lvl116"  speed="0.90" start="55"  mergespeed=".075" firespeed="8" colors="6" score="5000" slowfactor="2.5" partime="215"/>
+<Settings id="lvl117"  speed="0.55" start="60"  mergespeed=".075" firespeed="8" colors="6" score="5000" slowfactor="3.5" single="8" partime="215"/>
+<Settings id="lvl118"  speed="0.55" start="60"  mergespeed=".075" firespeed="8" colors="6" score="5000" slowfactor="3.5" partime="205"/>
 <Settings id="lvl119"  speed="0.80" start="60"  mergespeed=".075" firespeed="8" colors="6" score="5000" slowfactor="2.5" partime="215"/>
-<Settings id="lvl1110"  speed="0.55" start="50"  mergespeed=".075" firespeed="8" colors="6" score="5000" slowfactor="4" partime="250"/>
+<Settings id="lvl1110"  speed="0.80" start="60"  mergespeed=".075" firespeed="8" colors="6" score="5000" slowfactor="2.5" partime="215"/>
 <Settings id="lvl1111"  speed="0.55" start="50"  mergespeed=".075" firespeed="8" colors="6" score="5000" slowfactor="4" partime="250"/>
+<Settings id="lvl1112"  speed="0.55" start="50"  mergespeed=".075" firespeed="8" colors="6" score="5000" slowfactor="4" partime="250"/>
 
 <Settings id="lvl121"  speed="1.20" start="110"  mergespeed=".075" firespeed="8" colors="6" score="5000" slowfactor="3.5" partime="225"/>
 <Settings id="lvl122"  speed="0.60" start="60"  mergespeed=".075" firespeed="8" colors="6" score="5000" slowfactor="3.5" partime="220"/>
-<Settings id="lvl123"  speed="1.20" start="85"  mergespeed=".075" firespeed="8" colors="6" score="5000" slowfactor="3.5" partime="225"/>
-<Settings id="lvl124"  speed="0.60" start="60"  mergespeed=".075" firespeed="8" colors="6" score="5000" slowfactor="3.5" partime="220"/>
-<Settings id="lvl125"  speed="0.60" start="60"  mergespeed=".075" firespeed="8" colors="6" score="5000" slowfactor="3.5" partime="210"/>
-<Settings id="lvl126"  speed="0.60" start="65"  mergespeed=".075" firespeed="8" colors="6" score="5000" slowfactor="3.5" single="8" partime="220"/>
-<Settings id="lvl127"  speed="0.60" start="65"  mergespeed=".075" firespeed="8" colors="6" score="5000" slowfactor="3.5" partime="225"/>
-<Settings id="lvl128"  speed="0.55" start="50"  mergespeed=".075" firespeed="8" colors="6" score="5000" slowfactor="4" partime="250"/>
+<Settings id="lvl123"  speed="0.65" start="60"  mergespeed=".075" firespeed="8" colors="6" score="5000" slowfactor="3.5" partime="220"/>
+<Settings id="lvl124"  speed="1.20" start="85"  mergespeed=".075" firespeed="8" colors="6" score="5000" slowfactor="3.5" partime="225"/>
+<Settings id="lvl125"  speed="0.65" start="60"  mergespeed=".075" firespeed="8" colors="6" score="5000" slowfactor="3.5" partime="220"/>
+<Settings id="lvl126"  speed="0.60" start="60"  mergespeed=".075" firespeed="8" colors="6" score="5000" slowfactor="3.5" partime="210"/>
+<Settings id="lvl127"  speed="0.60" start="65"  mergespeed=".075" firespeed="8" colors="6" score="5000" slowfactor="3.5" single="8" partime="220"/>
+<Settings id="lvl128"  speed="0.60" start="65"  mergespeed=".075" firespeed="8" colors="6" score="5000" slowfactor="3.5" partime="225"/>
 <Settings id="lvl129"  speed="0.55" start="50"  mergespeed=".075" firespeed="8" colors="6" score="5000" slowfactor="4" partime="250"/>
 <Settings id="lvl1210"  speed="0.55" start="50"  mergespeed=".075" firespeed="8" colors="6" score="5000" slowfactor="4" partime="250"/>
 <Settings id="lvl1211"  speed="0.55" start="50"  mergespeed=".075" firespeed="8" colors="6" score="5000" slowfactor="4" partime="250"/>
+<Settings id="lvl1212"  speed="0.55" start="50"  mergespeed=".075" firespeed="8" colors="6" score="5000" slowfactor="4" partime="250"/>
 
 <Settings id="lvl131" speed="1.00" start="60"  mergespeed=".075" firespeed="8" colors="6" score="5500" slowfactor="2.5" partime="250"/>
 <Settings id="lvl132" speed="1.20" start="40"  mergespeed=".075" firespeed="8" colors="6" score="30000" slowfactor="4" partime="400"/>
@@ -995,7 +1184,7 @@
 <Settings id="s32" speed="1" start="60"  mergespeed=".075" firespeed="8" score="6000" slowfactor="1" colors="6" powerfreq="1100" />
 <Settings id="s33" speed="1.4" start="60"  mergespeed=".075" firespeed="8" score="6000" slowfactor="1" colors="6" powerfreq="1100" />
 <Settings id="s34" speed="1.5" start="60"  mergespeed=".075" firespeed="8" score="7000" slowfactor="1" colors="6" powerfreq="1100" />
-<Settings id="s35" speed="1.6" start="60"  mergespeed=".075" firespeed="8" score="7000" slowfactor="1" colors="6" powerfreq="1100" />
+<Settings id="s35" speed="1.6" start="75"  mergespeed=".075" firespeed="8" score="8000" slowfactor="1" colors="6" powerfreq="1100" />
 
 <Settings id="d1"  speed="0.4" start="50" mergespeed=".075" firespeed="8" score="2000" colors="4" />
 <Settings id="d2"  speed="0.4" start="50" mergespeed=".075" firespeed="8" score="2250" colors="4" />
@@ -1031,7 +1220,7 @@
 <Settings id="d32" speed="0.75" start="50" mergespeed=".075" firespeed="8" score="6000" slowfactor="1" colors="6" powerfreq="1100" />
 <Settings id="d33" speed="0.75" start="50" mergespeed=".075" firespeed="8" score="6000" slowfactor="1" colors="6" powerfreq="1200" />
 <Settings id="d34" speed="0.75" start="50" mergespeed=".075" firespeed="8" score="7000" slowfactor="1" colors="6" powerfreq="1100" />
-<Settings id="d35" speed="0.75" start="50" mergespeed=".075" firespeed="8" score="7000" slowfactor="1" colors="6" powerfreq="1100" />
+<Settings id="d35" speed="0.75" start="50" mergespeed=".075" firespeed="8" score="8000" slowfactor="1" colors="6" powerfreq="1100" />
 
 <Settings id="t1"  speed="0.4" start="50" mergespeed=".075" firespeed="8" score="3000" colors="4" />
 <Settings id="t2"  speed="0.4" start="50" mergespeed=".075" firespeed="8" score="3250" colors="4" />
@@ -1087,31 +1276,42 @@
 	difficulty="1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30"
 	/>
 
-<Level graphics="test"			progression="s"		/>
-
+<Level graphics="overunder2"			progression="s"		/>
+<Level graphics="area"			progression="s"		/>
+<Level graphics="tunneldual"		progression="d"		/>
 <Level graphics="spiral"		progression="s"		/>
+<Level graphics="mystic"		progression="s"		/>
 <Level graphics="cookies"		progression="s"		/>
 <Level graphics="robotechnics"		progression="s"		/>
-<Level graphics="darkness"		progression="s"		/>
+<Level graphics="darkness"		progression="d"		/>
 <Level graphics="claw"			progression="s"		/>
 <Level graphics="cat"			progression="s"		/>
 <Level graphics="paint"			progression="s"		/>
 <Level graphics="origins"		progression="s"		/>
+<Level graphics="squaresville3"		progression="s"		/>
 <Level graphics="origins2"		progression="s"		/>
+<Level graphics="triangle4"			progression="s"		/>
 <Level graphics="riverbed"		progression="s"		/>
 <Level graphics="barricade"		progression="s"		/>
 <Level graphics="desertire"		progression="s"		/>
+<Level graphics="cleopatra"		progression="s"		/>
 <Level graphics="nightcrescent"		progression="d"		/>
+<Level graphics="betawings"		progression="d"		/>
+<Level graphics="clawdual2"		progression="d"		/>
 <Level graphics="targetglyph"		progression="s"		/>
 <Level graphics="gleepheron"		progression="s"		/>
 <Level graphics="grassylands"		progression="s"		/>
 <Level graphics="zodiac"		progression="d"		/>
+<Level graphics="serpents3"		progression="d" 			/>
 <Level graphics="blackswirley"		progression="d"		/>
 <Level graphics="lilies"		progression="d"		/>
+<Level graphics="serpents2"		progression="d"		/>
 <Level graphics="crystall"		progression="d"		/>
+<Level graphics="inversespiraldual"		progression="d"		/>
 <Level graphics="crystall2"		progression="d"		/>
 <Level graphics="acrossmath"		progression="d"		/>
 <Level graphics="turnaround"		progression="s"		/>
+<Level graphics="targetglyph2"		progression="s"		/>
 <Level graphics="goldenpath"		progression="s"		/>
 <Level graphics="beach"			progression="s"		/>
 <Level graphics="bjorn"			progression="d"		/>
@@ -1145,34 +1345,43 @@
 <Level graphics="attack"		progression="d"		/>
 <Level graphics="lxiii"			progression="d"		/>
 <Level graphics="groovefest"		progression="s"		/>
+<Level graphics="inversespiral2"		progression="s"		/>
 <Level graphics="dotsndots"		progression="s"		/>
 <Level graphics="drawings"		progression="s"		/>
 <Level graphics="drawings2"		progression="s"		/>
 <Level graphics="illusion"		progression="d"		/>
 <Level graphics="spaceinvaders"		progression="s"		/>
+<Level graphics="spaceinvaders2"		progression="s"		/>
 <Level graphics="trueSI"		progression="s"		/>
 <Level graphics="waterdrop"		progression="s"		/>
 <Level graphics="dimensional"		progression="s"		/>
 <Level graphics="swapswirley"		progression="d" 			/>
-
+<Level graphics="blackswirley2"		progression="d" 			/>
+<Level graphics="serpentsingle"		progression="s" 			/>
 <Level graphics="triangle"		progression="s"		/>
 <Level graphics="mythic"		progression="s"		/>
 <Level graphics="mythic2"		progression="s"		/>
 <Level graphics="morescience"		progression="s"		/>
 <Level graphics="morescience2"		progression="s"		/>
-<Level graphics="dustbowl"		progression="s"		/>
+<Level graphics="dustbowl"		progression="d"		/>
 <Level graphics="coaster"		progression="s"		/>
 <Level graphics="mramor"		progression="s"		/>
 <Level graphics="code"			progression="s"		/>
 <Level graphics="purpland"		progression="d"		/>
+<Level graphics="congregation"		progression="d"		/>
+<Level graphics="candy"		progression="d"		/>
 <Level graphics="squaresville"		progression="s"		/>
 <Level graphics="chebu"			progression="s"		/>
 <Level graphics="goldenmolden"		progression="s"		/>
 <Level graphics="skylar"		progression="d"		/>
 <Level graphics="tunnellevel"		progression="s"		/>
+<Level graphics="tunnellevel2"		progression="s"		/>
 <Level graphics="bitcrushed"		progression="s"		/>
 <Level graphics="rootmire"		progression="s"		/>
 <Level graphics="doubletunnel"		progression="d"		/>
+<Level graphics="analog"		progression="d"		/>
+<Level graphics="yellowmatrix"		progression="d"		/>
+<Level graphics="platypus"		progression="d"		/>
 <Level graphics="illusion2"		progression="d"		/>
 <Level graphics="serpents"		progression="d"		/>
 <Level graphics="inner"			progression="d"		/>
@@ -1185,6 +1394,7 @@
 <Level graphics="randomly"		progression="s"		/>
 <Level graphics="randomly2"		progression="s"		/>
 <Level graphics="testings"		progression="s"		/>
+<Level graphics="test"		progression="s"		/>
 <Level graphics="inversespiral"		progression="s"		/>
 <Level graphics="gonacal"		progression="s"		/>
 <Level graphics="jam"			progression="s"		/>
@@ -1192,11 +1402,12 @@
 <Level graphics="wingsofdeath2"		progression="t"		/>
 <Level graphics="squaretriple"		progression="t"		/>
 <Level graphics="pixelated"		progression="d" 			/>
-
+<Level graphics="coasterdual"			progression="s"		/>
 <Level graphics="memoryloop"		progression="s"		/>
 <Level graphics="bobbles"		progression="s"		/>
 <Level graphics="redblackgreen"		progression="s"		/>
 <Level graphics="mothing"		progression="d"		/>
+<Level graphics="danganronpa"		progression="d"		/>
 <Level graphics="twice"			progression="d"		/>
 <Level graphics="arythmetic"		progression="d"		/>
 <Level graphics="bobstick"		progression="d"		/>
@@ -1210,33 +1421,33 @@
 <Level graphics="gleepheron2"		progression="s"		/>
 
 <StageProgression
-	stage1 = "spiral,claw,riverbed,targetglyph,blackswirley,turnaround,longrange,longpit"
-	diffi1 = "lvl11,lvl12,lvl13,lvl14,lvl15,lvl16,lvl17,lvl18"
-	stage2 = "tiltspiral,underover,warshak,loopy,snakepit,groovefest,spaceinvaders,pixelated"
-	diffi2 = "lvl21,lvl22,lvl23,lvl24,lvl25,lvl26,lvl27,lvl28"
-	stage3 = "triangle,coaster,squaresville,tunnellevel,serpents,overunder,inversespiral,darkness"
-	diffi3 = "lvl31,lvl32,lvl33,lvl34,lvl35,lvl36,lvl37,lvl38"
+	stage1 = "spiral,claw,riverbed,targetglyph,blackswirley,turnaround,tunnellevel2,longpit,longrange,inversespiral2"
+	diffi1 = "lvl11,lvl12,lvl13,lvl14,lvl15,lvl16,lvl17,lvl18,lvl19,lvl110"
+	stage2 = "tiltspiral,underover,mythic2,loopy,snakepit,warshak,groovefest,pixelated,mystic,spaceinvaders"
+	diffi2 = "lvl21,lvl22,lvl23,lvl24,lvl25,lvl26,lvl27,lvl28,lvl29,lvl210"
+	stage3 = "triangle,coaster,squaresville,tunnellevel,serpents,overunder,darkness, area,betawings,inversespiral"
+	diffi3 = "lvl31,lvl32,lvl33,lvl34,lvl35,lvl36,lvl37,lvl38,lvl39,lvl310"
 
-	stage4 = "cookies,cat,barricade,gleepheron,lilies,goldenpath,quarre, tumble2,trigroove"
-	diffi4 = "lvl41,lvl42,lvl43,lvl44,lvl45,lvl46,lvl47,lvl48,lvl49"
-	stage5 = "milky,dirtslide,blackforest,lunar,twilight,dotsndots,trueSI, morescience2,festive"
-	diffi5 = "lvl51,lvl52,lvl53,lvl54,lvl55,lvl56,lvl57,lvl58,lvl59"
-	stage6 = "mythic,mramor,chebu,bitcrushed,inner,pipes,gonacal, test,swapswirley"
-	diffi6 = "lvl61,lvl62,lvl63,lvl64,lvl65,lvl66,lvl67,lvl68,lvl69"
+	stage4 = "cookies,targetglyph2,cat,gleepheron,lilies,goldenpath,quarre,yellowmatrix, tumble2,trigroove,swapswirley"
+	diffi4 = "lvl41,lvl42,lvl43,lvl44,lvl45,lvl46,lvl47,lvl48,lvl49,lvl410,lvl411"
+	stage5 = "milky,dirtslide,blackforest,lunar,twilight,dotsndots,trueSI,analog, morescience2,clawdual2,festive"
+	diffi5 = "lvl51,lvl52,lvl53,lvl54,lvl55,lvl56,lvl57,lvl58,lvl59,lvl510,lvl511"
+	stage6 = "mythic,barricade,chebu,bitcrushed,inner,pipes,gonacal,danganronpa, overunder2,mramor,inversespiraldual"
+	diffi6 = "lvl61,lvl62,lvl63,lvl64,lvl65,lvl66,lvl67,lvl68,lvl69,lvl610,lvl611"
 
-	stage7 = "robotechnics,paint,desertire,grassylands,crystall,beach,doloch,crystall2,corruption,memoryloop"
-	diffi7 = "lvl71,lvl72,lvl73,lvl74,lvl75,lvl76,lvl77,lvl78,lvl79,lvl710"
-	stage8 = "theory,tumble,aquasea,icerules,attack,drawings,waterdrop,hyksos2,gleepheron2,bobbles"
-	diffi8 = "lvl81,lvl82,lvl83,lvl84,lvl85,lvl86,lvl87,lvl88,lvl89,lvl810"
-	stage9 = "morescience,code,goldenmolden,rootmire,hyksos,randomly,jam,knightmare2,redblackgreen,drawings2"
-	diffi9 = "lvl91,lvl92,lvl93,lvl94,lvl95,lvl96,lvl97,lvl98,lvl99,lvl910"
+	stage7 = "robotechnics,paint,squaresville3,desertire,crystall,grassylands,beach,blackswirley2,doloch,corruption,crystall2,memoryloop"
+	diffi7 = "lvl71,lvl72,lvl73,lvl74,lvl75,lvl76,lvl77,lvl78,lvl79,lvl710,lvl711,lvl712"
+	stage8 = "theory,tumble,aquasea,icerules,attack,drawings,waterdrop,hyksos2,gleepheron2,bobbles,platypus,serpentsingle"
+	diffi8 = "lvl81,lvl82,lvl83,lvl84,lvl85,lvl86,lvl87,lvl88,lvl89,lvl810,lvl811,lvl812"
+	stage9 = "morescience,code,goldenmolden,rootmire,hyksos,randomly,jam,knightmare2,redblackgreen,coasterdual,drawings2,congregation"
+	diffi9 = "lvl91,lvl92,lvl93,lvl94,lvl95,lvl96,lvl97,lvl98,lvl99,lvl910,lvl911,lvl912"
 
-	stage10 = "hexadecimal,origins,nightcrescent,theory2,zodiac,randomly2,acrossmath,bjorn,knightmare,mothing,squaretriple"
-	diffi10 = "lvl101,lvl102,lvl103,lvl104,lvl105,lvl106,lvl107,lvl108,lvl109,lvl1010,lvl1011"
-	stage11 = "illusion2,missingtextures,origins2,authentic,loopers,bactoro,lxiii,illusion,dimensional,twice, wingsofdeath2"
-	diffi11 = "lvl111,lvl112,lvl113,lvl114,lvl115,lvl116,lvl117,lvl118, lvl119, lvl1110, lvl1111"
-	stage12 = "badbreath,dustbowl,mythic2,purpland,skylar,doubletunnel,glacier,testings,arythmetic,bobstick,wingsofdeath"
-	diffi12 = "lvl121,lvl122,lvl123,lvl124,lvl125,lvl126,lvl127,lvl128,lvl129,lvl1210,lvl1211"
+	stage10 = "hexadecimal,origins,nightcrescent,serpents2,tunneldual,zodiac,randomly2,acrossmath,bjorn,knightmare,mothing,squaretriple"
+	diffi10 = "lvl101,lvl102,lvl103,lvl104,lvl105,lvl106,lvl107,lvl108,lvl109,lvl1010,lvl1011,lvl1012"
+	stage11 = "illusion2,missingtextures,origins2,authentic,loopers,serpents3,bactoro,lxiii,illusion,dimensional,twice, wingsofdeath2"
+	diffi11 = "lvl111,lvl112,lvl113,lvl114,lvl115,lvl116,lvl117,lvl118, lvl119, lvl1110, lvl1111, lvl1112"
+	stage12 = "badbreath,dustbowl,candy,spaceinvaders2,purpland,skylar,doubletunnel,glacier,testings,arythmetic,bobstick,wingsofdeath"
+	diffi12 = "lvl121,lvl122,lvl123,lvl124,lvl125,lvl126,lvl127,lvl128,lvl129,lvl1210,lvl1211,lvl1212"
 
 	stage13 = "isitend,newspace,space"
 	diffi13 = "lvl131,lvl132,lvl133"

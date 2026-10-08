@@ -1,0 +1,27 @@
+Exception: Access Violation (code 0xc0000005) at address 004074B4 in thread CAC
+Module: ZDPlus.exe
+Logical Address: 0001:000064B4
+
+001AF60C 004074B4 0001:000064B4 ZDPlus.exe
+Params: FFFFFFFF 0B67D3A0 0AC25450 001AF640
+
+StackWalk failed (error 299)
+
+EAX:FFFFFFF7 EBX:00000000 ECX:0AC231B8 EDX:00000000 ESI:FFFFFFDC EDI:FFFFFFFF
+EIP:004074B4 ESP:001AF5EC  EBP:001AF60C
+CS:0023 SS:002B DS:002B ES:002B FS:0053 GS:002B
+Flags:00010202
+
+Windows Ver: NT 6.2  Build 9200
+DDraw Ver: 
+DSound Ver: 10.0.26100.1
+
+Product: 
+Version: 
+Build Num: 101
+Build Date: Thu Dec 04 17:05:02 2003
+Time Loaded: 00:00:18
+Times Played: 7086
+Fullscreen: Yes
+Primary ThreadId: CAC
+
