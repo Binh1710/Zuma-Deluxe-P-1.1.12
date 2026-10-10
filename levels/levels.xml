@@ -25,7 +25,7 @@
 	<TreasurePoint x="71" y="93" dist1="40" />
 </Graphics>
 
-<Graphics id="sanda" curve="a" curve2="b" image="a" dispname="Super Sanda" gx="320" gy="240">
+<Graphics id="sanda" curve="a" curve2="b" image="a" dispname="Super Sanda" skullrot="0" gx="320" gy="240">
 	<TreasurePoint x="574" y="403" dist1="0" />
 	<TreasurePoint x="75" y="400" dist1="30" />
 	<TreasurePoint x="71" y="93" dist1="40" />
@@ -960,6 +960,11 @@
 	<TreasurePoint x="603" y="56" dist1="30" />
 </Graphics>
 
+<Graphics id="fifthage" curve1="fifthage" image="fifthage" dispname="End of the Fifth Age" gx="322" gy="188">
+	<Sprite image="trial" pri="1" x="0" y="0" />
+	<Cutout image="tunnels" pri="1" x="0" y="0" />
+</Graphics>
+
 <Graphics id="isitend" image="a" curve="a" dispname="Beyond Spectre of the Light" gx="258" gy="263" >
 	<Sprite image="paths" pri="0" x="0" y="0" />
 	<Sprite image="tunnels" pri="1" x="0" y="0" />
@@ -1289,6 +1294,7 @@
 <Level graphics="mystic"		progression="s"		/>
 <Level graphics="cookies"		progression="s"		/>
 <Level graphics="robotechnics"		progression="s"		/>
+<Level graphics="fifthage"		progression="s"		/>
 <Level graphics="darkness"		progression="d"		/>
 <Level graphics="claw"			progression="s"		/>
 <Level graphics="cat"			progression="s"		/>
@@ -1401,7 +1407,7 @@
 <Level graphics="randomly2"		progression="s"		/>
 <Level graphics="testings"		progression="s"		/>
 <Level graphics="test"		progression="s"		/>
-<Level graphics="sanda"		progression="s"		/>
+<Level graphics="sanda"		progression="d"		/>
 <Level graphics="inversespiral"		progression="s"		/>
 <Level graphics="gonacal"		progression="s"		/>
 <Level graphics="jam"			progression="s"		/>
@@ -1437,7 +1443,7 @@
 
 	stage4 = "cookies,targetglyph2,cat,gleepheron,lilies,goldenpath,quarre,yellowmatrix, badbreath,trigroove,swapswirley"
 	diffi4 = "lvl41,lvl42,lvl43,lvl44,lvl45,lvl46,lvl47,lvl48,lvl49,lvl410,lvl411"
-	stage5 = "milky,dirtslide,blackforest,lunar,twilight,dotsndots,trueSI,analog, morescience2,clawdual2,festive"
+	stage5 = "milky,dirtslide,blackforest,lunar,twilight,dotsndots,trueSI,analog, fifthage,clawdual2,festive"
 	diffi5 = "lvl51,lvl52,lvl53,lvl54,lvl55,lvl56,lvl57,lvl58,lvl59,lvl510,lvl511"
 	stage6 = "mythic,barricade,chebu,bitcrushed,inner,pipes,gonacal,danganronpa, overunder2,mramor,inversespiraldual"
 	diffi6 = "lvl61,lvl62,lvl63,lvl64,lvl65,lvl66,lvl67,lvl68,lvl69,lvl610,lvl611"
