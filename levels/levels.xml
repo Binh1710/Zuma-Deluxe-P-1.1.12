@@ -1428,7 +1428,7 @@
 <Level graphics="gleepheron2"		progression="s"		/>
 
 <StageProgression
-	stage1 = "spiral,claw,riverbed,targetglyph,blackswirley,turnaround,tunnellevel2,longpit,longrange,inversespiral2"
+	stage1 = "spiral,claw,riverbed,targetglyph,blackswirley,turnaround,tunnellevel2,longpit,inversespiral2,longrange"
 	diffi1 = "lvl11,lvl12,lvl13,lvl14,lvl15,lvl16,lvl17,lvl18,lvl19,lvl110"
 	stage2 = "tiltspiral,underover,mythic2,loopy,snakepit,warshak,groovefest,pixelated,mystic,spaceinvaders"
 	diffi2 = "lvl21,lvl22,lvl23,lvl24,lvl25,lvl26,lvl27,lvl28,lvl29,lvl210"
