@@ -25,6 +25,12 @@
 	<TreasurePoint x="71" y="93" dist1="40" />
 </Graphics>
 
+<Graphics id="sanda" curve="a" curve2="b" image="a" dispname="Super Sanda" gx="320" gy="240">
+	<TreasurePoint x="574" y="403" dist1="0" />
+	<TreasurePoint x="75" y="400" dist1="30" />
+	<TreasurePoint x="71" y="93" dist1="40" />
+</Graphics>
+
 <Graphics id="cookies" curve="a" image="a" dispname="Different Ratio" gx="284" gy="245">
 	<Cutout image="tunnels" pri="1" x="0" y="0" />
 	<TreasurePoint x="74" y="75" dist1="0" />
@@ -1133,7 +1139,7 @@
 <Settings id="lvl1111"  speed="0.55" start="50"  mergespeed=".075" firespeed="8" colors="6" score="5000" slowfactor="4" partime="250"/>
 <Settings id="lvl1112"  speed="0.55" start="50"  mergespeed=".075" firespeed="8" colors="6" score="5000" slowfactor="4" partime="250"/>
 
-<Settings id="lvl121"  speed="1.20" start="110"  mergespeed=".075" firespeed="8" colors="6" score="5000" slowfactor="3.5" partime="225"/>
+<Settings id="lvl121"  speed="0.65" start="60"  mergespeed=".075" firespeed="8" colors="6" score="5000" slowfactor="3.5" partime="225"/>
 <Settings id="lvl122"  speed="0.60" start="60"  mergespeed=".075" firespeed="8" colors="6" score="5000" slowfactor="3.5" partime="220"/>
 <Settings id="lvl123"  speed="0.65" start="60"  mergespeed=".075" firespeed="8" colors="6" score="5000" slowfactor="3.5" partime="220"/>
 <Settings id="lvl124"  speed="1.20" start="85"  mergespeed=".075" firespeed="8" colors="6" score="5000" slowfactor="3.5" partime="225"/>
@@ -1395,6 +1401,7 @@
 <Level graphics="randomly2"		progression="s"		/>
 <Level graphics="testings"		progression="s"		/>
 <Level graphics="test"		progression="s"		/>
+<Level graphics="sanda"		progression="s"		/>
 <Level graphics="inversespiral"		progression="s"		/>
 <Level graphics="gonacal"		progression="s"		/>
 <Level graphics="jam"			progression="s"		/>
@@ -1428,7 +1435,7 @@
 	stage3 = "triangle,coaster,squaresville,tunnellevel,serpents,overunder,darkness, area,betawings,inversespiral"
 	diffi3 = "lvl31,lvl32,lvl33,lvl34,lvl35,lvl36,lvl37,lvl38,lvl39,lvl310"
 
-	stage4 = "cookies,targetglyph2,cat,gleepheron,lilies,goldenpath,quarre,yellowmatrix, tumble2,trigroove,swapswirley"
+	stage4 = "cookies,targetglyph2,cat,gleepheron,lilies,goldenpath,quarre,yellowmatrix, badbreath,trigroove,swapswirley"
 	diffi4 = "lvl41,lvl42,lvl43,lvl44,lvl45,lvl46,lvl47,lvl48,lvl49,lvl410,lvl411"
 	stage5 = "milky,dirtslide,blackforest,lunar,twilight,dotsndots,trueSI,analog, morescience2,clawdual2,festive"
 	diffi5 = "lvl51,lvl52,lvl53,lvl54,lvl55,lvl56,lvl57,lvl58,lvl59,lvl510,lvl511"
@@ -1446,7 +1453,7 @@
 	diffi10 = "lvl101,lvl102,lvl103,lvl104,lvl105,lvl106,lvl107,lvl108,lvl109,lvl1010,lvl1011,lvl1012"
 	stage11 = "illusion2,missingtextures,origins2,authentic,loopers,serpents3,bactoro,lxiii,illusion,dimensional,twice, wingsofdeath2"
 	diffi11 = "lvl111,lvl112,lvl113,lvl114,lvl115,lvl116,lvl117,lvl118, lvl119, lvl1110, lvl1111, lvl1112"
-	stage12 = "badbreath,dustbowl,candy,spaceinvaders2,purpland,skylar,doubletunnel,glacier,testings,arythmetic,bobstick,wingsofdeath"
+	stage12 = "sanda,dustbowl,candy,spaceinvaders2,purpland,skylar,doubletunnel,glacier,testings,arythmetic,bobstick,wingsofdeath"
 	diffi12 = "lvl121,lvl122,lvl123,lvl124,lvl125,lvl126,lvl127,lvl128,lvl129,lvl1210,lvl1211,lvl1212"
 
 	stage13 = "isitend,newspace,space"
