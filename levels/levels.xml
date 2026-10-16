@@ -15,6 +15,10 @@
 <Graphics id="longpit" curve1="longpit-1" curve2="longpit-2" image="longpit" dispname="Long Into The Void" gx="320" gy="240" >
 	</Graphics>
 
+<Graphics id="kings" curve1="a" curve2="b" image="a" dispname="Kings of Rabbit" skullrot="0" gx="316" gy="75" >
+	<Cutout pri="1" image="tunnels" x="0" y="0" />
+	</Graphics>
+
 <Graphics id="hexadecimal" curve="hexadecimal" image="hexadecimal" dispname="Hexadecimal Codex" gx="320" gy="240" >
 	<Cutout image="tunnel" pri="1" x="0" y="0" />
 </Graphics>
@@ -953,6 +957,11 @@
 	<TreasurePoint x="123" y="125" dist2="72" />
 </Graphics>
 
+<Graphics id="duplo2" image="duplo" curve="duplo-1" dispname="Dark amethyst maestro" gx="345" gy="200" >
+	<TreasurePoint x="589" y="45" dist1="0" />
+	<TreasurePoint x="56" y="431" dist1="0" />
+</Graphics>
+
 <Graphics id="inversespiral2" curve="inversespiral" image="inversespiral" dispname="Zumaic Exodus" gx="452" gy="215">
 	<Cutout image="tunnel" pri="1" x="107" y="157" />
 	<TreasurePoint x="319" y="419" dist1="15" />
@@ -1156,6 +1165,7 @@
 <Settings id="lvl1210"  speed="0.55" start="50"  mergespeed=".075" firespeed="8" colors="6" score="5000" slowfactor="4" partime="250"/>
 <Settings id="lvl1211"  speed="0.55" start="50"  mergespeed=".075" firespeed="8" colors="6" score="5000" slowfactor="4" partime="250"/>
 <Settings id="lvl1212"  speed="0.55" start="50"  mergespeed=".075" firespeed="8" colors="6" score="5000" slowfactor="4" partime="250"/>
+<Settings id="lvl1213"  speed="0.55" start="70"  mergespeed=".075" firespeed="8" colors="6" score="10000" slowfactor="4" partime="250"/>
 
 <Settings id="lvl131" speed="1.00" start="60"  mergespeed=".075" firespeed="8" colors="6" score="5500" slowfactor="2.5" partime="250"/>
 <Settings id="lvl132" speed="1.20" start="40"  mergespeed=".075" firespeed="8" colors="6" score="30000" slowfactor="4" partime="400"/>
@@ -1334,6 +1344,7 @@
 <Level graphics="knightmare2"		progression="d"		/>
 
 <Level graphics="tiltspiral"		progression="s"		/>
+<Level graphics="duplo2"		progression="s"		/>
 <Level graphics="badbreath"		progression="s"		/>
 <Level graphics="milky"			progression="s"		/>
 <Level graphics="theory"		progression="s"		/>
@@ -1403,6 +1414,7 @@
 <Level graphics="overunder"		progression="s"		/>
 <Level graphics="newspace"		progression="s"		/>
 <Level graphics="pipes"			progression="s"		/>
+<Level graphics="kings"			progression="d"		/>
 <Level graphics="randomly"		progression="s"		/>
 <Level graphics="randomly2"		progression="s"		/>
 <Level graphics="testings"		progression="s"		/>
@@ -1441,7 +1453,7 @@
 	stage3 = "triangle,coaster,squaresville,tunnellevel,serpents,overunder,darkness, area,betawings,inversespiral"
 	diffi3 = "lvl31,lvl32,lvl33,lvl34,lvl35,lvl36,lvl37,lvl38,lvl39,lvl310"
 
-	stage4 = "cookies,targetglyph2,cat,gleepheron,lilies,goldenpath,quarre,yellowmatrix, badbreath,trigroove,swapswirley"
+	stage4 = "cookies,targetglyph2,cat,gleepheron,lilies,goldenpath,quarre,yellowmatrix, duplo2,trigroove,swapswirley"
 	diffi4 = "lvl41,lvl42,lvl43,lvl44,lvl45,lvl46,lvl47,lvl48,lvl49,lvl410,lvl411"
 	stage5 = "milky,dirtslide,blackforest,lunar,twilight,dotsndots,trueSI,analog, fifthage,clawdual2,festive"
 	diffi5 = "lvl51,lvl52,lvl53,lvl54,lvl55,lvl56,lvl57,lvl58,lvl59,lvl510,lvl511"
@@ -1459,11 +1471,14 @@
 	diffi10 = "lvl101,lvl102,lvl103,lvl104,lvl105,lvl106,lvl107,lvl108,lvl109,lvl1010,lvl1011,lvl1012"
 	stage11 = "illusion2,missingtextures,origins2,authentic,loopers,serpents3,bactoro,lxiii,illusion,dimensional,twice, wingsofdeath2"
 	diffi11 = "lvl111,lvl112,lvl113,lvl114,lvl115,lvl116,lvl117,lvl118, lvl119, lvl1110, lvl1111, lvl1112"
-	stage12 = "sanda,dustbowl,candy,spaceinvaders2,purpland,skylar,doubletunnel,glacier,testings,arythmetic,bobstick,wingsofdeath"
-	diffi12 = "lvl121,lvl122,lvl123,lvl124,lvl125,lvl126,lvl127,lvl128,lvl129,lvl1210,lvl1211,lvl1212"
+	stage12 = "sanda,dustbowl,candy,spaceinvaders2,purpland,skylar,doubletunnel,glacier,testings,arythmetic,bobstick,wingsofdeath,kings"
+	diffi12 = "lvl121,lvl122,lvl123,lvl124,lvl125,lvl126,lvl127,lvl128,lvl129,lvl1210,lvl1211,lvl1212,lvl1213"
 
 	stage13 = "isitend,newspace,space"
 	diffi13 = "lvl131,lvl132,lvl133"
+
+	stage14 = "cleopatra,morescience2,test,theory2,triangle4,tumble2"
+	diffi14 = "lvl133,lvl133,lvl133,lvl133,lvl133,lvl133"
 	/>
 
 		
