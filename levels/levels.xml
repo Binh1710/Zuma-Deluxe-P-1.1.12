@@ -1168,7 +1168,7 @@
 <Settings id="lvl104"  speed="0.50" start="50"  mergespeed=".075" firespeed="8" colors="6" score="5000" slowfactor="3.5" partime="205"/>
 <Settings id="lvl105"  speed="0.50" start="80"  mergespeed=".075" firespeed="8" colors="6" score="5000" slowfactor="3.5" partime="200"/>
 <Settings id="lvl106"  speed="0.50" start="55"  mergespeed=".075" firespeed="8" colors="6" score="5000" slowfactor="3.5" single="8" partime="195"/>
-<Settings id="lvl107"  speed="0.50" start="80"  mergespeed=".075" firespeed="8" colors="6" score="5000" slowfactor="3.5" partime="205"/>
+<Settings id="lvl107"  speed="1.20" start="70"  mergespeed=".075" firespeed="8" colors="6" score="5000" slowfactor="3.5" partime="205"/>
 <Settings id="lvl108"  speed="0.30" start="40"  mergespeed=".075" firespeed="8" colors="6" score="4000" slowfactor="4" partime="200"/>
 <Settings id="lvl109"  speed="0.30" start="40"  mergespeed=".075" firespeed="8" colors="6" score="4000" slowfactor="4" partime="200"/>
 <Settings id="lvl1010"  speed="0.30" start="40"  mergespeed=".075" firespeed="8" colors="6" score="4000" slowfactor="4" partime="200"/>
@@ -1278,7 +1278,7 @@
 <Settings id="d32" speed="0.75" start="50" mergespeed=".075" firespeed="8" score="6000" slowfactor="1" colors="6" powerfreq="1100" />
 <Settings id="d33" speed="0.75" start="50" mergespeed=".075" firespeed="8" score="6000" slowfactor="1" colors="6" powerfreq="1200" />
 <Settings id="d34" speed="0.75" start="50" mergespeed=".075" firespeed="8" score="7000" slowfactor="1" colors="6" powerfreq="1100" />
-<Settings id="d35" speed="0.75" start="50" mergespeed=".075" firespeed="8" score="8000" slowfactor="1" colors="6" powerfreq="1100" />
+<Settings id="d35" speed="0.85" start="50" mergespeed=".075" firespeed="8" score="8000" slowfactor="1" colors="6" powerfreq="1100" />
 
 <Settings id="t1"  speed="0.4" start="50" mergespeed=".075" firespeed="8" score="3000" colors="4" />
 <Settings id="t2"  speed="0.4" start="50" mergespeed=".075" firespeed="8" score="3250" colors="4" />
@@ -1487,7 +1487,7 @@
 <Level graphics="gleepheron2"		progression="s"		/>
 
 <StageProgression
-	stage1 = "spiral,claw,riverbed,targetglyph,blackswirley,turnaround,tunnellevel2,longpit,inversespiral2,longrange,theory2"
+	stage1 = "spiral,claw,riverbed,targetglyph,blackswirley,turnaround,tunnellevel2,horus,inversespiral2,longrange,theory2"
 	diffi1 = "lvl11,lvl12,lvl13,lvl14,lvl15,lvl16,lvl17,lvl18,lvl19,lvl110,bonus"
 	stage2 = "tiltspiral,underover,mythic2,loopy,snakepit,warshak,groovefest,pixelated,mystic,spaceinvaders,tumble2"
 	diffi2 = "lvl21,lvl22,lvl23,lvl24,lvl25,lvl26,lvl27,lvl28,lvl29,lvl210,bonus"
