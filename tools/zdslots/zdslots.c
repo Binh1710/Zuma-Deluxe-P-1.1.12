@@ -82,6 +82,7 @@ static void mstr(MStr *m, const char *s)
 static const char *mstr_c(MStr *m) { return m->res >= 16 ? m->u.ptr : m->u.buf; }
 
 static void zlog(const char *fmt, int a, int b);
+static int memcmp_(const void *a, const void *b, int n);
 
 /* ---------------------------------------------------------------- slot data */
 #define NSLOTS 6
@@ -596,6 +597,170 @@ static void zlog(const char *fmt, int a, int b)
     CloseHandle(h);
 }
 
+/* ---------------------------------------------------------------- frog with two positions
+ * levels.xml: <Graphics ... dispname="X" gx="a" gy="b" gx2="c" gy2="d">
+ * A / Left arrow -> left position, D / Right arrow -> right position.
+ * Maps without gx2/gy2 are untouched. */
+#define G_GunSetPos ((void (__thiscall *)(void *, int, int))0x404720)
+#define G_BoardUpdate ((Fn_v)0x421ce0)
+#define G_BoardKeyDown ((Fn_i)0x401b10)
+#define MAXFROG 64
+#define SLIDE_FRAMES 14
+
+typedef struct FrogMap { char disp[96]; int x[2], y[2]; } FrogMap;
+static FrogMap g_frog[MAXFROG];
+static int g_nfrog = -1;
+
+static struct {
+    void *board, *level;
+    FrogMap *map;
+    int cur, target, step;      /* step 0 = idle */
+    int fx, fy;                 /* slide start */
+    int lx, ly;                 /* last position we set */
+} g_fs;
+
+static int attr(const char *tag, int tlen, const char *name, char *out, int max)
+{
+    int nl = slen(name), i;
+    for (i = 0; i + nl + 2 < tlen; i++) {
+        if ((i == 0 || tag[i - 1] == ' ' || tag[i - 1] == '\t' || tag[i - 1] == '\n' || tag[i - 1] == '\r') &&
+            memcmp_(tag + i, name, nl) == 0) {
+            int j = i + nl, k = 0;
+            while (j < tlen && (tag[j] == ' ' || tag[j] == '\t')) j++;
+            if (j >= tlen || tag[j] != '=') continue;
+            j++;
+            while (j < tlen && (tag[j] == ' ' || tag[j] == '\t')) j++;
+            if (j >= tlen || tag[j] != '"') continue;
+            j++;
+            while (j < tlen && tag[j] != '"' && k < max - 1) out[k++] = tag[j++];
+            out[k] = 0;
+            return 1;
+        }
+    }
+    return 0;
+}
+
+static int atoi_(const char *s) { int v = 0, neg = 0; while (*s == ' ') s++; if (*s == '-') { neg = 1; s++; } while (*s >= '0' && *s <= '9') v = v * 10 + *s++ - '0'; return neg ? -v : v; }
+
+static void load_frog_config(void)
+{
+    HANDLE h; DWORD size, n = 0; char *buf; DWORD i;
+    g_nfrog = 0;
+    h = CreateFileA("levels/levels.xml", GENERIC_READ, FILE_SHARE_READ, 0, OPEN_EXISTING, 0, 0);
+    if (h == INVALID_HANDLE_VALUE) return;
+    size = GetFileSize(h, 0);
+    buf = (char *)HeapAlloc(GetProcessHeap(), 0, size + 1);
+    if (!buf) { CloseHandle(h); return; }
+    ReadFile(h, buf, size, &n, 0); CloseHandle(h);
+    buf[n] = 0;
+    for (i = 0; i + 9 < n && g_nfrog < MAXFROG; i++) {
+        if (memcmp_(buf + i, "<Graphics", 9) == 0) {
+            DWORD e = i; char v[96];
+            FrogMap *f = &g_frog[g_nfrog];
+            while (e < n && buf[e] != '>') e++;
+            if (attr(buf + i, e - i, "gx2", v, sizeof v)) {
+                f->x[1] = atoi_(v);
+                if (!attr(buf + i, e - i, "gy2", v, sizeof v)) continue;
+                f->y[1] = atoi_(v);
+                if (!attr(buf + i, e - i, "gx", v, sizeof v)) continue;
+                f->x[0] = atoi_(v);
+                if (!attr(buf + i, e - i, "gy", v, sizeof v)) continue;
+                f->y[0] = atoi_(v);
+                if (!attr(buf + i, e - i, "dispname", f->disp, sizeof f->disp)) continue;
+                zlog("frog: two positions for a map, x %d / %d", f->x[0], f->x[1]);
+                g_nfrog++;
+            }
+            i = e;
+        }
+    }
+    HeapFree(GetProcessHeap(), 0, buf);
+}
+
+static char *board_level(char *board) { return *(char **)(board + (*(board + 0x15a) ? 0xfc : 0xf8)); }
+
+static FrogMap *frog_map_for(char *level)
+{
+    int i;
+    if (!level) return 0;
+    if (g_nfrog < 0) load_frog_config();
+    for (i = 0; i < g_nfrog; i++) {
+        FrogMap *f = &g_frog[i];
+        if (*(int *)(level + 0x60) == f->x[0] && *(int *)(level + 0x64) == f->y[0] &&
+            lstrcmpA(mstr_c((MStr *)(level + 0x20)), f->disp) == 0)
+            return f;
+    }
+    return 0;
+}
+
+static void frog_sync(char *board)
+{
+    char *level = board_level(board);
+    char *gun = *(char **)(board + 0x268);
+    if (board != g_fs.board || level != g_fs.level) {
+        g_fs.board = board; g_fs.level = level;
+        g_fs.map = frog_map_for(level);
+        g_fs.cur = g_fs.target = 0; g_fs.step = 0;
+        if (gun) { g_fs.lx = *(int *)(gun + 0x10); g_fs.ly = *(int *)(gun + 0x14); }
+    }
+    /* the game moved the frog itself (level start/restart): back to position 0 */
+    if (gun && g_fs.map && !g_fs.step && (*(int *)(gun + 0x10) != g_fs.lx || *(int *)(gun + 0x14) != g_fs.ly)) {
+        g_fs.cur = g_fs.target = 0;
+        g_fs.lx = *(int *)(gun + 0x10); g_fs.ly = *(int *)(gun + 0x14);
+    }
+}
+
+static void __thiscall H_BoardUpdate(void *board)
+{
+    char *gun;
+    G_BoardUpdate(board);
+    frog_sync((char *)board);
+    gun = *(char **)((char *)board + 0x268);
+    if (!gun || !g_fs.map || !g_fs.step) return;
+    if (*(int *)((char *)board + 0xcc)) return;          /* paused */
+    {
+        FrogMap *f = g_fs.map;
+        int t = g_fs.target, s = ++g_fs.step;
+        /* ease-out */
+        int k = SLIDE_FRAMES - s, num = SLIDE_FRAMES * SLIDE_FRAMES - k * k, den = SLIDE_FRAMES * SLIDE_FRAMES;
+        int x = g_fs.fx + (f->x[t] - g_fs.fx) * num / den;
+        int y = g_fs.fy + (f->y[t] - g_fs.fy) * num / den;
+        if (s >= SLIDE_FRAMES) { x = f->x[t]; y = f->y[t]; g_fs.step = 0; g_fs.cur = t; }
+        {
+            /* +0x10/+0x14 = home position, +8/+0xc = drawn position (recoil), +0x18/+0x1c = recoil point */
+            int dx = x - *(int *)(gun + 0x10), dy = y - *(int *)(gun + 0x14);
+            int rx = *(int *)(gun + 0x18) + dx, ry = *(int *)(gun + 0x1c) + dy;
+            int ox = *(int *)(gun + 8) + dx, oy = *(int *)(gun + 0xc) + dy;
+            G_GunSetPos(gun, x, y);
+            *(int *)(gun + 0x18) = rx; *(int *)(gun + 0x1c) = ry;
+            *(int *)(gun + 8) = ox; *(int *)(gun + 0xc) = oy;   /* keep any recoil offset */
+        }
+        g_fs.lx = x; g_fs.ly = y;
+    }
+}
+
+static void __thiscall H_BoardKeyDown(void *board, int key)
+{
+    int want = -1;
+    if (key == 'A' || key == VK_LEFT) want = 0;
+    else if (key == 'D' || key == VK_RIGHT) want = 1;
+    if (want >= 0) {
+        char *gun;
+        frog_sync((char *)board);
+        gun = *(char **)((char *)board + 0x268);
+        if (gun && g_fs.map && !*(int *)((char *)board + 0xcc)) {
+            FrogMap *f = g_fs.map;
+            /* "left" = the position with the smaller x */
+            int left = f->x[0] <= f->x[1] ? 0 : 1;
+            int t = want == 0 ? left : 1 - left;
+            if (t != (g_fs.step ? g_fs.target : g_fs.cur)) {
+                g_fs.fx = *(int *)(gun + 0x10); g_fs.fy = *(int *)(gun + 0x14);
+                g_fs.target = t; g_fs.step = 1;
+            }
+        }
+    }
+    G_BoardKeyDown(board, key);
+}
+
 static void patch(void *addr, const void *bytes, int n)
 {
     DWORD old;
@@ -631,6 +796,11 @@ static void install(void)
     put_rel(0xE9, 0x42acc0, (void *)H_SaveName, 0);
     put_rel(0xE8, 0x43c8a3, (void *)H_SaveBoard, 0);
     { void *p = (void *)H_AppButton; patch((void *)0x502cac, &p, 4); }
+    if (*(unsigned *)0x4fe880 == 0x421ce0 && *(unsigned *)0x4fe890 == 0x401b10) {   /* Board vtable: Update, KeyDown */
+        void *u = (void *)H_BoardUpdate, *k = (void *)H_BoardKeyDown;
+        patch((void *)0x4fe880, &u, 4);
+        patch((void *)0x4fe890, &k, 4);
+    } else zlog("frog: board vtable not as expected", 0, 0);
     zlog("install: hooks installed", 0, 0);
 }
 

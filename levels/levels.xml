@@ -12,7 +12,7 @@
 
 
 <!-- Stage 1, 4, 7, 10: -->
-<Graphics id="longpit" curve1="longpit-1" curve2="longpit-2" image="longpit" dispname="Long Into The Void" gx="320" gy="240" >
+<Graphics id="longpit" curve1="longpit-1" curve2="longpit-2" image="longpit" dispname="Long Into The Void" gx="204" gy="274" gx2="422" gy2="215" >
 	</Graphics>
 
 <Graphics id="kings" curve1="a" curve2="b" image="a" dispname="Kings of Rabbit" skullrot="0" gx="316" gy="365" >
@@ -680,7 +680,7 @@
 	<TreasurePoint x="556" y="374" dist2="60" />
 </Graphics>
 
-<Graphics id="cleopatra" curve="cleopatra" image="cleopatra" dispname="Cleopatra Cafe" gx="175" gy="219" danger="813">
+<Graphics id="cleopatra" curve="cleopatra" image="cleopatra" dispname="Cleopatra Cafe" gx="178" gy="213" gx2="480" gy2="236" danger="813">
 	<Cutout image="tunnel" pri="1" x="0" y="0" />
 </Graphics>
 
@@ -920,7 +920,7 @@
 	<TreasurePoint x="594" y="437" dist2="0" />
 </Graphics>
 
-<Graphics id="falcon" curve="a" image="a" dispname="Falcon" gx="320" gy="98">
+<Graphics id="falcon" curve="a" image="a" dispname="Falcon" gx="117" gy="297" gx2="541" gy2="250">
      <TreasurePoint x="205" y="302" dist1="25" />
      <TreasurePoint x="415" y="131" dist1="0" />
      <TreasurePoint x="82" y="14" dist2="0" />
