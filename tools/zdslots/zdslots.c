@@ -5,6 +5,7 @@
  */
 #include <windows.h>
 #include <string.h>
+#include <math.h>
 
 /* ---------------------------------------------------------------- game types */
 typedef struct MStr { void *al; union { char buf[16]; char *ptr; } u; unsigned size, res; } MStr; /* MSVC7 std::string */
@@ -92,13 +93,18 @@ static int memcmp_(const void *a, const void *b, int n);
 
 typedef struct Slot {
     int used;
-    int mode;            /* -1 unknown, 0 practice, 1 survival */
+    int mode;            /* -1 unknown, 0 practice, 1 survival, 2 timeless */
+    int timeLeft;        /* timeless: frames left when saved */
     char level[48];
     char map[96];
     int score;
 } Slot;
 
 static Slot g_slots[NSLOTS];
+static void timeless_set(int on);
+static void timeless_resume(int frames);
+static int timeless_active(char *board);
+static int timeless_left(void);
 static int g_slot = 1;          /* active slot (1..6) used for prc save path */
 static void *g_widget;
 static void *g_vtbl[64];
@@ -155,7 +161,7 @@ static void load_slots(void)
         supper(s->level); supper(s->map);
         s->mode = -1;
         wsprintfA(inf, "%s.inf", path);
-        { unsigned char m[4]; if (read_file(inf, m, 4) >= 1) s->mode = m[0] ? 1 : 0; }
+        { unsigned char m[8]; int k = read_file(inf, m, 8); if (k >= 1) s->mode = m[0] > 2 ? 1 : m[0]; if (k >= 5) memcpy(&s->timeLeft, m + 1, 4); }
         s->used = 1;
     }
 }
@@ -305,10 +311,10 @@ static void __thiscall W_Draw(void *w, void *g)
         }
         if (s->used) {
             char lines[16][64]; int n, k, top;
-            const char *mode = s->mode == 1 ? "SURVIVAL" : s->mode == 0 ? "PRACTICE" : "";
+            const char *mode = s->mode == 2 ? "TIMELESS" : s->mode == 1 ? "SURVIVAL" : s->mode == 0 ? "PRACTICE" : "";
             wsprintfA(buf, "SLOT %d", i + 1);
             text(g, FONT_MAIN10, buf, r.x + 22, r.y + 15, 255, 222, 110, 0);
-            if (mode[0]) text(g, FONT_MAIN10, mode, r.x + SW - 22, r.y + 15, s->mode ? 255 : 150, s->mode ? 150 : 255, s->mode ? 70 : 120, 2);
+            if (mode[0]) text(g, FONT_MAIN10, mode, r.x + SW - 22, r.y + 15, s->mode == 2 ? 120 : s->mode ? 255 : 150, s->mode == 2 ? 210 : s->mode ? 150 : 255, s->mode == 2 ? 255 : s->mode ? 70 : 120, 2);
             text(g, FONT_MAIN12, s->level, cx, r.y + 32, 255, 255, 255, 1);
             n = wrap(FONT_MAIN10, s->map, SW - 40, lines, 3);
             top = r.y + 51 + (3 - n) * 13 / 2;
@@ -380,7 +386,7 @@ static void show_ready(Slot *s, int slot)
     fmt_num(num, s->score);
     wsprintfA(hdr, "SLOT %d", slot);
     wsprintfA(lines, "%s%s\r\n%s\r\nScore: %s\r\n\r\nGet ready!",
-              s->level, s->mode == 1 ? " - SURVIVAL" : s->mode == 0 ? " - PRACTICE" : "", s->map, num);
+              s->level, s->mode == 2 ? " - TIMELESS" : s->mode == 1 ? " - SURVIVAL" : s->mode == 0 ? " - PRACTICE" : "", s->map, num);
     mstr(&mh, hdr); mstr(&ml, lines); mstr(&mf, "CONFIRM");
     dlg = ((DoDialogFn)VCALL(APP, 0x4c))(APP, DLG_READY, 1, &mh, &ml, &mf, 3);   /* 3 = one footer button */
     if (!dlg) { G_PauseBoard(APP, 0); g_readyPaused = 0; return; }
@@ -394,6 +400,8 @@ static void do_load(int i)
     g_slot = i + 1;
     zlog("load slot %d", g_slot, 0);
     close_widget();
+    timeless_set(s.mode == 2);
+    if (s.mode == 2) timeless_resume(s.timeLeft);
     *(unsigned char *)(APP + 0x664) = 1;   /* practice mode */
     if (G_CheckSaved(APP, 0) & 0xff) {
         G_LoadSaved(APP, 1);
@@ -422,7 +430,7 @@ static void do_delete_prompt(void)
     fmt_num(num, s->score);
     wsprintfA(hdr, "DELETE SLOT %d?", g_sel + 1);
     wsprintfA(lines, "%s%s%s\r\n%s\r\nScore: %s\r\n\r\nThis save will be lost forever.",
-              s->level, s->mode == 1 ? " - SURVIVAL" : s->mode == 0 ? " - PRACTICE" : "", "", s->map, num);
+              s->level, s->mode == 2 ? " - TIMELESS" : s->mode == 1 ? " - SURVIVAL" : s->mode == 0 ? " - PRACTICE" : "", "", s->map, num);
     mstr(&mh, hdr); mstr(&ml, lines); mstr(&mf, "");
     dlg = ((DoDialogFn)VCALL(APP, 0x4c))(APP, DLG_ID, 1, &mh, &ml, &mf, 2);
     if (!dlg) return;
@@ -550,8 +558,11 @@ static int __thiscall H_SaveBoard(void *board, MStr *path)
         wsprintfA(inf, "%s.inf", mstr_c(path));
         h = CreateFileA(inf, GENERIC_WRITE, 0, 0, CREATE_ALWAYS, 0, 0);
         if (h != INVALID_HANDLE_VALUE) {
-            unsigned char m = *((unsigned char *)board + 0x15b) ? 1 : 0;
-            WriteFile(h, &m, 1, &n, 0);
+            unsigned char m[5];
+            int left = timeless_left();
+            m[0] = *((unsigned char *)board + 0x15b) ? 1 : timeless_active((char *)board) ? 2 : 0;
+            memcpy(m + 1, &left, 4);
+            WriteFile(h, m, 5, &n, 0);
             CloseHandle(h);
         }
     }
@@ -709,10 +720,13 @@ static void frog_sync(char *board)
     }
 }
 
+static void balls_update(char *board);
+
 static void __thiscall H_BoardUpdate(void *board)
 {
     char *gun;
     G_BoardUpdate(board);
+    balls_update((char *)board);
     frog_sync((char *)board);
     gun = *(char **)((char *)board + 0x268);
     if (!gun || !g_fs.map || !g_fs.step) return;
@@ -761,6 +775,560 @@ static void __thiscall H_BoardKeyDown(void *board, int key)
     G_BoardKeyDown(board, key);
 }
 
+/* ---------------------------------------------------------------- special balls
+ * Stored in Ball::mPowerType (+0x60) next to the stock powers 0..3 (4 = none), so they are
+ * saved/loaded with the board like any power:
+ *   5 rainbow  matches any colour (CountGroup replacement)
+ *   6 skull    when it explodes a little frog runs out of the skull hole and eats the
+ *              front of the chain
+ *   7 frog     when it explodes every ball of its colour on the board explodes
+ * Tuning: zdballs.ini in the game folder (section [Balls]). */
+#define PW_RAINBOW 5
+#define PW_SKULL   6
+#define PW_FROG    7
+
+#define G_Rand          ((int (__cdecl *)(void))0x4298d0)
+#define G_BallNext      ((char *(__thiscall *)(void *, int))0x4054c0)
+#define G_BallPrev      ((char *(__thiscall *)(void *, int))0x405470)
+#define G_BallSetPower  ((void (__thiscall *)(void *, int, int))0x401320)
+#define G_BallDraw      ((void (__thiscall *)(void *, void *))0x403f00)
+#define G_CurveExplode  ((void (__thiscall *)(void *, void *))0x417540)
+#define G_ActivatePower ((void (__thiscall *)(void *, void *))0x4172f0)
+#define G_IncScore      ((void (__thiscall *)(void *, int, int))0x413a40)
+#define G_BoardDraw     ((void (__thiscall *)(void *, void *))0x40d330)
+#define G_DrawImageRotF ((void (__thiscall *)(void *, void *, float, float, double, Rect *))0x450740)
+#define SOUND_POP      (*(int *)0x547fb8)
+#define SOUND_FROGLAND (*(int *)0x547f2c)
+#define SOUND_EXPLODE  (*(int *)0x547fdc)
+#define SOUND_JEWEL_APPEAR (*(int *)0x548000)
+
+#define B_I(p, o) (*(int *)((char *)(p) + (o)))
+#define B_F(p, o) (*(float *)((char *)(p) + (o)))
+#define B_P(p, o) (*(char **)((char *)(p) + (o)))
+
+static struct {
+    int loaded, enabled;
+    int freq[3];          /* rainbow, skull, frog: mean frames between spawns per curve (0 = off) */
+    int maxPer;           /* max balls of one kind on a curve at once */
+    int frogPts, skullEat, skullPts;
+    int tlSeconds;
+} cfg;
+
+static void load_cfg(void)
+{
+    const char *f = ".\\zdballs.ini";
+    cfg.loaded = 1;
+    cfg.enabled  = GetPrivateProfileIntA("Balls", "Enabled", 1, f);
+    cfg.freq[0]  = GetPrivateProfileIntA("Balls", "RainbowFreq", 1500, f);
+    cfg.freq[1]  = GetPrivateProfileIntA("Balls", "SkullFreq", 2500, f);
+    cfg.freq[2]  = GetPrivateProfileIntA("Balls", "FrogFreq", 2000, f);
+    cfg.maxPer   = GetPrivateProfileIntA("Balls", "MaxPerCurve", 1, f);
+    cfg.frogPts  = GetPrivateProfileIntA("Balls", "FrogPoints", 10, f);
+    cfg.skullEat = GetPrivateProfileIntA("Balls", "SkullEat", 10, f);
+    cfg.skullPts = GetPrivateProfileIntA("Balls", "SkullPoints", 10, f);
+    cfg.tlSeconds = GetPrivateProfileIntA("Timeless", "Seconds", 120, f);
+    if (cfg.tlSeconds < 1) cfg.tlSeconds = 1;
+    zlog("balls: enabled %d, rainbow freq %d", cfg.enabled, cfg.freq[0]);
+}
+
+static void *g_img[4];    /* rainbow, skull icon, frog icon, mini frog */
+static void *img(int i)
+{
+    static const char *names[4] = { "images/zdx_rainbow", "images/zdx_skull", "images/zdx_frog", "images/zdx_minifrog" };
+    static int tried[4];
+    if (!g_img[i] && !tried[i]) {
+        MStr p; mstr(&p, names[i]);
+        tried[i] = 1;
+        g_img[i] = G_GetImage(APP, &p);
+        if (!g_img[i]) zlog("balls: missing image %d", i, 0);
+    }
+    return g_img[i];
+}
+
+static void play(int snd) { if (snd) ((Fn_i)VCALL(APP, 0x9c))(APP, snd); }
+
+static int ball_power(char *b) { int t = B_I(b, 0x60); return t == 4 ? B_I(b, 0x64) : t; }
+static int is_rainbow(char *b) { return B_I(b, 0x60) == PW_RAINBOW; }
+
+/* board curves */
+static int ncurves(char *board) { int n = B_I(board, 0x8c); return n < 0 ? 0 : n > 8 ? 8 : n; }
+static char *curve_at(char *board, int i) { return B_P(board, 0x5c + 4 * i); }
+static char *curve_of(char *board, char *ball)
+{
+    int i;
+    for (i = 0; i < ncurves(board); i++) { char *c = curve_at(board, i); if (c && B_P(ball, 0x24) == c + 0x2c) return c; }
+    return 0;
+}
+/* std::list<Ball*> at curve+0x2c: head node at +0x30; node = {next, prev, Ball*} */
+#define FOR_BALLS(curve, b) for (char **n_ = B_P(curve, 0x30) ? *(char ***)B_P(curve, 0x30) : 0, *b; \
+                                 n_ && n_ != (char **)B_P(curve, 0x30) && ((b = n_[2]), 1); n_ = (char **)n_[0])
+
+static int wp_count(char *curve)
+{
+    char *w = B_P(curve, 0xc), *b, *e;
+    if (!w) return 0;
+    b = B_P(w, 8); e = B_P(w, 0xc);
+    return b ? (int)(e - b) / 36 : 0;
+}
+static float *wp_at(char *curve, int i)
+{
+    int n = wp_count(curve);
+    if (i >= n) i = n - 1;
+    if (i < 0) i = 0;
+    return (float *)(B_P(B_P(curve, 0xc), 8) + 36 * i);
+}
+
+/* same steps the bomb power uses for every ball it hits */
+static int explode(char *curve, char *ball)
+{
+    char *board = B_P(curve, 8);
+    if (B_I(ball, 0x34)) return 0;
+    B_I(ball, 0x48) = B_I(board, 0x240);
+    B_I(ball, 0x44) = B_I(board, 0x23c);
+    G_CurveExplode(curve, ball);
+    return 1;
+}
+
+/* ---- floating "+N" texts */
+typedef struct Pop { int t; float x, y; char s[16]; } Pop;
+#define NPOP 12
+static Pop g_pop[NPOP];
+static void add_pop(float x, float y, int pts)
+{
+    int i, best = 0;
+    for (i = 0; i < NPOP; i++) if (g_pop[i].t <= 0) { best = i; break; } else if (g_pop[i].t < g_pop[best].t) best = i;
+    g_pop[best].t = 110; g_pop[best].x = x; g_pop[best].y = y;
+    wsprintfA(g_pop[best].s, "+%d", pts);
+}
+
+/* ---- the little frog from the skull hole */
+typedef struct Mini { int on; char *curve; float pos; int eaten, cool, state, t, pts; float x, y, ang; int pri; } Mini;
+#define NMINI 4
+#define MINI_SPEED 5.0f
+#define MINI_REACH 24.0f
+#define MINI_EAT_EVERY 9
+static Mini g_mini[NMINI];
+static char *g_bboard;
+static int g_lastSpawn[8][3];
+static int g_depth;
+
+static void mini_spawn(char *curve)
+{
+    int i, n = wp_count(curve);
+    if (n < 2) return;
+    for (i = 0; i < NMINI; i++) if (!g_mini[i].on) break;
+    if (i == NMINI) return;
+    memset(&g_mini[i], 0, sizeof g_mini[i]);
+    g_mini[i].on = 1; g_mini[i].curve = curve; g_mini[i].pos = (float)(n - 1);
+    play(SOUND_FROGLAND);
+    zlog("balls: mini frog out of the skull hole (path %d points)", n, 0);
+}
+
+static char *front_ball(char *curve)
+{
+    char *best = 0;
+    FOR_BALLS(curve, b) if (!B_I(b, 0x34) && (!best || B_F(b, 0xc) > B_F(best, 0xc))) best = b;
+    return best;
+}
+
+static void mini_update(Mini *m, char *board)
+{
+    int i, ok = 0;
+    float *p, *q, dx, dy;
+    for (i = 0; i < ncurves(board); i++) if (curve_at(board, i) == m->curve) ok = 1;
+    if (!ok || wp_count(m->curve) < 2) { m->on = 0; return; }
+    m->t++;
+    if (m->state == 0) {
+        char *f = front_ball(m->curve);
+        if (m->cool > 0) m->cool--;
+        if (!f || m->eaten >= cfg.skullEat || m->pos <= 0) {
+            m->state = 1; m->t = 0;
+            if (m->pts) add_pop(m->x, m->y - 20, m->pts);
+        } else {
+            float fp = B_F(f, 0xc);
+            if (m->pos > fp + MINI_REACH) {
+                m->pos -= MINI_SPEED;
+                if (m->pos < fp + MINI_REACH) m->pos = fp + MINI_REACH;
+            } else {
+                m->pos = fp + MINI_REACH;          /* the chain pushes the frog back */
+                if (!m->cool) {
+                    g_depth++;
+                    if (explode(m->curve, f)) {
+                        m->eaten++;
+                        if (cfg.skullPts) { G_IncScore(board, cfg.skullPts, 1); m->pts += cfg.skullPts; }
+                        play(SOUND_POP);
+                    }
+                    g_depth--;
+                    m->cool = MINI_EAT_EVERY;
+                }
+            }
+        }
+    } else if (m->t > 45) { m->on = 0; return; }
+    p = wp_at(m->curve, (int)m->pos);
+    q = wp_at(m->curve, (int)m->pos - 12);
+    m->x = p[0]; m->y = p[1];
+    m->pri = *((unsigned char *)p + 0x21);
+    dx = q[0] - p[0]; dy = q[1] - p[1];
+    if (dx * dx + dy * dy > 0.5f) m->ang = atan2f(-dx, -dy);   /* sprite faces up; game rotates counter-clockwise */
+}
+
+static void spawn_specials(char *board)
+{
+    int frame = B_I(board, 0xc4), ci, k;
+    for (ci = 0; ci < ncurves(board) && ci < 8; ci++) {
+        char *c = curve_at(board, ci);
+        int have[3] = { 0, 0, 0 }, n = 0;
+        if (!c || B_I(c, 0x34) < 8) continue;
+        FOR_BALLS(c, b) {
+            int t = B_I(b, 0x60);
+            if (t >= PW_RAINBOW && t <= PW_FROG) have[t - PW_RAINBOW]++;
+        }
+        for (k = 0; k < 3; k++) {
+            int f = cfg.freq[k];
+            if (f <= 0 || have[k] >= cfg.maxPer) continue;
+            if (frame < g_lastSpawn[ci][k]) g_lastSpawn[ci][k] = frame;
+            if (frame - g_lastSpawn[ci][k] <= f || G_Rand() % f) continue;
+            n = 0;
+            FOR_BALLS(c, b) if (B_I(b, 0x60) == 4 && B_I(b, 0x64) == 4 && !B_I(b, 0x34) && B_F(b, 0xc) > 0) n++;
+            if (!n) continue;
+            n = G_Rand() % n;
+            FOR_BALLS(c, b) if (B_I(b, 0x60) == 4 && B_I(b, 0x64) == 4 && !B_I(b, 0x34) && B_F(b, 0xc) > 0 && n-- == 0) {
+                G_BallSetPower(b, PW_RAINBOW + k, 0);
+                break;
+            }
+            g_lastSpawn[ci][k] = frame;
+        }
+    }
+}
+
+
+/* ---------------------------------------------------------------- Timeless mode
+ * A Gauntlet mode next to Standard and Survival: the level is played like Practice, but a
+ * countdown runs (zdballs.ini [Timeless] Seconds). At 0.0 the game's own "a ball reached the
+ * hole" routine runs: every ball rushes into the hole and a life is lost. The clock restarts
+ * with each try and each level. The board itself is an ordinary Practice board. */
+#define G_BoardLose ((Fn_v)0x421430)
+#define G_ScrAdded    ((Fn_p)0x43bfd0)
+#define G_ScrRemoved  ((Fn_p)0x435250)
+#define G_ScrResize   ((void (__thiscall *)(void *, int, int, int, int))0x435170)
+#define G_ScrButton   ((Fn_i)0x43bf10)
+#define G_ScrRefresh  ((Fn_v)0x43b680)
+#define G_SaveScores  ((Fn_v)0x4212c0)
+#define G_MakeButton  ((void *(__cdecl *)(int, void *, MStr *, int, void *, int))0x42b940)
+#define ID_TIMELESS 7
+#define ID_PRACTICE 5
+#define ID_SURVIVAL 6
+
+/* read from the HUD asm below */
+int g_hudOn;
+float g_hudSecs;
+const char g_hudFmt[] = "%.1f";
+
+static int g_timeless;           /* mode picked on the Gauntlet screen */
+static int g_tm;                 /* frames left */
+static int g_tmKeep;             /* resuming a save: keep g_tm on the next start */
+static int g_tmPlaying;
+static char *g_tmBoard, *g_tmLevel;
+static void *g_tlBtn;            /* our button while the Gauntlet screen is up */
+static int g_tlW, g_tlH;         /* its size */
+static char g_lblStd[16] = "Standard";
+static char g_prefix[4] = "e_";  /* high score table prefix: e_ survival, t_ timeless */
+
+static void timeless_set(int on)
+{
+    g_timeless = on;
+    scpy(g_lblStd, on ? "Timeless" : "Standard", sizeof g_lblStd);
+}
+static void timeless_resume(int frames) { g_tm = frames; g_tmKeep = frames > 0; }
+static int timeless_left(void) { return g_tm; }
+static int timeless_active(char *board)
+{
+    return g_timeless && *(unsigned char *)(APP + 0x664) && !board[0x15b];
+}
+
+static void timeless_update(char *board)
+{
+    char *lvl;
+    int active = timeless_active(board), i, balls = 0;
+    g_hudOn = active;
+    if (!active) { g_tmPlaying = 0; return; }
+    if (B_I(board, 0xc8) != 1) { g_tmPlaying = 0; return; }   /* not in play */
+    lvl = board_level(board);
+    if (!g_tmPlaying || board != g_tmBoard || lvl != g_tmLevel) {
+        if (g_tmKeep) g_tmKeep = 0; else g_tm = cfg.tlSeconds * 100;
+        g_tmPlaying = 1; g_tmBoard = board; g_tmLevel = lvl;
+    }
+    if (!B_I(board, 0xcc) && g_tm > 0) g_tm--;
+    g_hudSecs = g_tm / 100.0f;
+    if (g_tm > 0 || B_I(board, 0xcc)) return;
+    for (i = 0; i < ncurves(board); i++) { char *c = curve_at(board, i); if (c && B_I(c, 0x34)) balls = 1; }
+    if (balls) {
+        zlog("timeless: time up", 0, 0);
+        G_BoardLose(board);
+    }
+}
+
+/* the HUD's "SPEED x.xx" branch for Survival, extended: Timeless prints the clock the same way */
+__attribute__((naked)) static void H_HudCave(void)
+{
+    __asm__(
+        "cmpb $0, 0x15b(%edi)\n"
+        "jne 1f\n"
+        "cmpl $0, _g_hudOn\n"
+        "jne 2f\n"
+        "pushl $0x40d1ec\n"
+        "ret\n"
+        "1:\n"
+        "pushl $0x4fde9e\n"
+        "ret\n"
+        "2:\n"
+        "flds _g_hudSecs\n"
+        "subl $8, %esp\n"
+        "fstpl (%esp)\n"
+        "pushl $_g_hudFmt\n"
+        "leal -0x8c(%ebp), %eax\n"
+        "pushl %eax\n"
+        "movl $0x4895b0, %eax\n"
+        "call *%eax\n"
+        "addl $0x10, %esp\n"
+        "movl $0x10, %edi\n"
+        "pushl $0x4fde00\n"
+        "ret\n");
+}
+
+/* ---- Gauntlet screen */
+static void btn_select(char *b, int on)
+{
+    if (!b) return;
+    b[0xbc] = (char)on;
+    ((Fn_i)VCALL(b, 0x28))(b, on);
+}
+
+static void tl_place(char *screen)
+{
+    char *surv = B_P(screen, 0x70), *b = (char *)g_tlBtn;
+    if (!b || !surv) return;
+    /* on the stone ledge between the statue's feet and the Survival slot; the image is one row of 3 cells */
+    ((void (__thiscall *)(void *, int, int, int, int))VCALL(b, 0x34))(b, B_I(surv, 8) - 2, B_I(surv, 0xc) - 21, g_tlW, g_tlH);
+}
+
+/* the screen's score list: Timeless keeps its own tables */
+static void __thiscall H_ScrRefresh(char *screen)
+{
+    char saved = screen[0x80];
+    if (g_timeless) { screen[0x80] = 1; scpy(g_prefix, "t_", sizeof g_prefix); }
+    G_ScrRefresh(screen);
+    screen[0x80] = saved;
+    scpy(g_prefix, "e_", sizeof g_prefix);
+}
+
+static void __thiscall H_SaveScores(char *board)
+{
+    if (timeless_active(board)) {
+        board[0x15b] = 1;
+        scpy(g_prefix, "t_", sizeof g_prefix);
+        G_SaveScores(board);
+        board[0x15b] = 0;
+        scpy(g_prefix, "e_", sizeof g_prefix);
+    } else G_SaveScores(board);
+}
+
+static void show_timeless_selected(char *screen)
+{
+    btn_select(B_P(screen, 0x6c), 0);
+    btn_select(B_P(screen, 0x70), 0);
+    btn_select((char *)g_tlBtn, 1);
+    screen[0x80] = 0;
+}
+
+static void __thiscall H_ScrAdded(char *screen, void *wm)
+{
+    MStr label, p;
+    void *im;
+    G_ScrAdded(screen, wm);
+    mstr(&p, "images/gaunttimelessbutton");
+    im = G_GetImage(APP, &p);
+    if (!im) { zlog("timeless: button image missing", 0, 0); return; }
+    mstr(&label, "");
+    g_tlW = B_I(im, 4) / 3; g_tlH = B_I(im, 8);
+    g_tlBtn = G_MakeButton(ID_TIMELESS, screen + 0x58, &label, 1, im, 3);
+    if (!g_tlBtn) return;
+    tl_place(screen);
+    G_AddWidget(wm, g_tlBtn);
+    if (g_timeless) { show_timeless_selected(screen); H_ScrRefresh(screen); }
+}
+
+static void __thiscall H_ScrRemoved(char *screen, void *wm)
+{
+    if (g_tlBtn) {
+        void *b = g_tlBtn;
+        g_tlBtn = 0;
+        G_RemoveWidget(wm, b);
+        ((Fn_p)VCALL(APP, 0x54))(APP, b);     /* SafeDeleteWidget */
+    }
+    G_ScrRemoved(screen, wm);
+}
+
+static void __thiscall H_ScrResize(char *screen, int x, int y, int w, int h)
+{
+    G_ScrResize(screen, x, y, w, h);
+    tl_place(screen);
+}
+
+/* ButtonDepress on the screen's button-listener part (screen + 0x58) */
+static void __thiscall H_ScrButton(char *listener, int id)
+{
+    char *screen = listener - 0x58;
+    if (id == ID_TIMELESS) {
+        timeless_set(1);
+        show_timeless_selected(screen);
+        H_ScrRefresh(screen);
+        return;
+    }
+    if (id == ID_PRACTICE || id == ID_SURVIVAL) {
+        timeless_set(0);
+        btn_select((char *)g_tlBtn, 0);
+    }
+    G_ScrButton(listener, id);
+}
+
+static void balls_update(char *board)
+{
+    int i;
+    if (!cfg.loaded) load_cfg();
+    if (board != g_bboard) {
+        g_bboard = board;
+        memset(g_mini, 0, sizeof g_mini); memset(g_pop, 0, sizeof g_pop); memset(g_lastSpawn, 0, sizeof g_lastSpawn);
+    }
+    timeless_update(board);
+    if (B_I(board, 0xcc)) return;          /* paused */
+    for (i = 0; i < NPOP; i++) if (g_pop[i].t > 0) { g_pop[i].t--; g_pop[i].y -= 0.35f; }
+    if (B_I(board, 0xc8) != 1) {           /* life lost / level over: the little frogs go home */
+        memset(g_mini, 0, sizeof g_mini);
+        return;
+    }
+    for (i = 0; i < NMINI; i++) if (g_mini[i].on) mini_update(&g_mini[i], board);
+    if (cfg.enabled) spawn_specials(board);
+}
+
+/* Board::ActivatePower(ball), called when a ball with a power explodes */
+static void __thiscall H_ActivatePower(void *board, char *ball)
+{
+    int t = ball_power(ball);
+    char *curve;
+    if (t < PW_RAINBOW || t > PW_FROG) { G_ActivatePower(board, ball); return; }
+    if (g_depth > 4) return;
+    curve = curve_of((char *)board, ball);
+    if (t == PW_SKULL) { if (curve) mini_spawn(curve); return; }
+    if (t == PW_FROG) {
+        int color = B_I(ball, 8), n = 0, i;
+        g_depth++;
+        for (i = 0; i < ncurves((char *)board); i++) {
+            char *c = curve_at((char *)board, i);
+            if (!c) continue;
+            FOR_BALLS(c, b) if (b != ball && B_I(b, 8) == color && explode(c, b)) n++;
+        }
+        g_depth--;
+        zlog("balls: frog ball cleared %d balls of colour %d", n, color);
+        if (n) {
+            G_IncScore(board, n * cfg.frogPts, 1);
+            add_pop(B_F(ball, 0x1c), B_F(ball, 0x20) - 20, n * cfg.frogPts);
+            play(SOUND_EXPLODE);
+        }
+    }
+}
+
+/* CountGroup(ball, colour, &lastNext, &lastPrev) -> size of the same-coloured run through ball.
+ * Rainbow balls match any colour. */
+static int count_run(char *b, int color, char **outNext, char **outPrev)
+{
+    char *x, *last = b, *first = b;
+    int n = 1;
+    if (B_I(b, 8) != color && !is_rainbow(b)) return 0;
+    for (x = G_BallNext(b, 1); x && (B_I(x, 8) == color || is_rainbow(x)); x = G_BallNext(x, 1)) { last = x; n++; }
+    for (x = G_BallPrev(b, 1); x && (B_I(x, 8) == color || is_rainbow(x)); x = G_BallPrev(x, 1)) { first = x; n++; }
+    if (outNext) *outNext = last;
+    if (outPrev) *outPrev = first;
+    return n;
+}
+
+static int __stdcall H_CountGroup(char *b, int color, char **outNext, char **outPrev)
+{
+    if (is_rainbow(b)) {
+        /* try the colour of the nearest real ball on each side, keep the bigger run */
+        char *x, *n1 = 0, *p1 = 0, *n2 = 0, *p2 = 0;
+        int c1 = -1, c2 = -1, k1 = 0, k2 = 0;
+        for (x = G_BallNext(b, 1); x && is_rainbow(x); x = G_BallNext(x, 1)) ;
+        if (x) c1 = B_I(x, 8);
+        for (x = G_BallPrev(b, 1); x && is_rainbow(x); x = G_BallPrev(x, 1)) ;
+        if (x) c2 = B_I(x, 8);
+        if (c1 < 0 && c2 < 0) c1 = B_I(b, 8);
+        if (c1 >= 0) k1 = count_run(b, c1, &n1, &p1);
+        if (c2 >= 0 && c2 != c1) k2 = count_run(b, c2, &n2, &p2);
+        if (k2 > k1) { k1 = k2; n1 = n2; p1 = p2; c1 = c2; }
+        if (outNext) *outNext = n1;
+        if (outPrev) *outPrev = p1;
+        return k1;
+    }
+    return count_run(b, color, outNext, outPrev);
+}
+
+/* Ball::Draw (vtable): draw the plain ball, then our overlay rotated with it */
+static void __thiscall H_BallDraw(char *ball, void *g)
+{
+    int t = B_I(ball, 0x60);
+    void *im;
+    if (t < PW_RAINBOW || t > PW_FROG) { G_BallDraw(ball, g); return; }
+    B_I(ball, 0x60) = 4;
+    G_BallDraw(ball, g);
+    B_I(ball, 0x60) = t;
+    if (B_I(ball, 0x34)) return;           /* exploding */
+    im = img(t == PW_RAINBOW ? 0 : t == PW_SKULL ? 1 : 2);
+    if (im) {
+        int w = B_I(im, 4), h = B_I(im, 8);
+        Rect src = { 0, 0, w, h };
+        float rot = B_F(ball, 0x10);
+        if (t == PW_RAINBOW && g_bboard) rot += (float)(B_I(g_bboard, 0xc4) % 628) * 0.01f;
+        G_DrawImageRotF(g, im, B_F(ball, 0x1c) - w / 2.0f, B_F(ball, 0x20) - h / 2.0f, (double)rot, &src);
+    }
+}
+
+static void __thiscall H_BoardDraw(void *board, void *g)
+{
+    int i;
+    G_BoardDraw(board, g);
+    if (board != g_bboard) return;
+    for (i = 0; i < NMINI; i++) {
+        Mini *m = &g_mini[i];
+        void *im = img(3);
+        int a = 255, w, h;
+        float hop;
+        Rect src;
+        if (!m->on || !im) continue;
+        w = B_I(im, 4); h = B_I(im, 8);
+        src.x = 0; src.y = 0; src.w = w; src.h = h;
+        if (m->pri) a = 110;                                  /* under a tunnel */
+        if (m->state == 1) a = a * (45 - m->t) / 45;
+        if (a <= 0) continue;
+        hop = m->state == 0 ? (float)((m->t / 3) % 6 < 3 ? (m->t / 3) % 3 : 3 - (m->t / 3) % 3) : -(float)m->t * 0.4f;
+        if (a < 255) { G_SetColorize(g, 1); set_color(g, 255, 255, 255, a); }
+        G_DrawImageRotF(g, im, m->x - w / 2.0f, m->y - h / 2.0f - hop, (double)m->ang, &src);
+        G_SetColorize(g, 0);
+    }
+    for (i = 0; i < NPOP; i++) {
+        Pop *p = &g_pop[i];
+        MStr ms; int a;
+        if (p->t <= 0 || !FONT_MAIN12) continue;
+        a = p->t > 40 ? 255 : p->t * 255 / 40;
+        mstr(&ms, p->s);
+        G_SetFont(g, FONT_MAIN12);
+        set_color(g, 0, 0, 0, a);
+        G_DrawString(g, &ms, (int)p->x - text_w(FONT_MAIN12, p->s) / 2 + 1, (int)p->y + 1);
+        set_color(g, 255, 230, 90, a);
+        G_DrawString(g, &ms, (int)p->x - text_w(FONT_MAIN12, p->s) / 2, (int)p->y);
+    }
+}
+
 static void patch(void *addr, const void *bytes, int n)
 {
     DWORD old;
@@ -801,6 +1369,40 @@ static void install(void)
         patch((void *)0x4fe880, &u, 4);
         patch((void *)0x4fe890, &k, 4);
     } else zlog("frog: board vtable not as expected", 0, 0);
+    /* special balls */
+    if (*(unsigned *)0x4fe3c0 == 0x403f00 && *(unsigned *)0x4fe87c == 0x40d330 &&
+        expect(0x405730, "\x55\x8b\xec\x8b\x45\x0c", 6) && expect(0x4175e8, "\xe8", 1) &&
+        0x4175e8 + 5 + *(int *)0x4175e9 == 0x4172f0) {
+        void *d = (void *)H_BallDraw, *bd = (void *)H_BoardDraw;
+        patch((void *)0x4fe3c0, &d, 4);                         /* Ball vtable: Draw */
+        patch((void *)0x4fe87c, &bd, 4);                        /* Board vtable: Draw */
+        put_rel(0xE9, 0x405730, (void *)H_CountGroup, 0);       /* CountGroup -> rainbow aware */
+        put_rel(0xE8, 0x4175e8, (void *)H_ActivatePower, 0);    /* power ball exploded */
+        zlog("balls: hooks installed", 0, 0);
+    } else zlog("balls: code not as expected, special balls off", 0, 0);
+    /* Timeless mode */
+    if (*(unsigned *)0x502b08 == 0x43bfd0 && *(unsigned *)0x502b0c == 0x435250 && *(unsigned *)0x502b38 == 0x435170 &&
+        *(unsigned *)0x502af4 == 0x43bf10 && expect(0x4fde90, "\x8a\x87\x5b\x01\x00\x00", 6) &&
+        expect(0x439393, "\xba\xb4\x23\x50\x00", 5) && expect(0x42138b, "\x68\x38\xef\x4f\x00", 5) &&
+        expect(0x43b712, "\xb8\x38\xef\x4f\x00", 5) && expect(0x43b72a, "\x68\x38\xef\x4f\x00", 5) &&
+        expect(0x43bee1, "\xe8", 1) && expect(0x43bf83, "\xe8", 1) && expect(0x421515, "\xe8", 1) && expect(0x43553c, "\xe8", 1)) {
+        void *a = (void *)H_ScrAdded, *r = (void *)H_ScrRemoved, *z = (void *)H_ScrResize, *bt = (void *)H_ScrButton;
+        void *lbl = g_lblStd, *pre = g_prefix;
+        patch((void *)0x502b08, &a, 4);
+        patch((void *)0x502b0c, &r, 4);
+        patch((void *)0x502b38, &z, 4);
+        patch((void *)0x502af4, &bt, 4);
+        put_rel(0xE9, 0x4fde90, (void *)H_HudCave, 1);
+        patch((void *)0x439394, &lbl, 4);                       /* "Standard" label on the screen */
+        patch((void *)0x42138c, &pre, 4);                       /* high score table prefix */
+        patch((void *)0x43b713, &pre, 4);
+        patch((void *)0x43b72b, &pre, 4);
+        put_rel(0xE8, 0x43bee1, (void *)H_ScrRefresh, 0);
+        put_rel(0xE8, 0x43bf83, (void *)H_ScrRefresh, 0);
+        put_rel(0xE8, 0x421515, (void *)H_SaveScores, 0);
+        put_rel(0xE8, 0x43553c, (void *)H_SaveScores, 0);
+        zlog("timeless: hooks installed", 0, 0);
+    } else zlog("timeless: code not as expected, mode off", 0, 0);
     zlog("install: hooks installed", 0, 0);
 }
 
